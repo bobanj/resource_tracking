@@ -32,7 +32,7 @@
         .background
           .inner
             #logo
-              = image_tag("ubuzima.png")
+              = link_to image_tag("ubuzima.png"), root_path
             = render :partial => '/layouts/login_nav'
             %span.quote Improving lives through better health policy
             = image_tag("tagline.png")
