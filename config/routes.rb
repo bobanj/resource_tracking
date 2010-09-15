@@ -50,6 +50,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users, :active_scaffold => true
   map.resource :user_session
+  map.resources :view
 
   map.resources :help_requests, :active_scaffold => true
   # routes for CSV uploading for various models
@@ -73,3 +74,4 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'static_page', :action => 'index' # a replacement for public/index.html
 
 end
+

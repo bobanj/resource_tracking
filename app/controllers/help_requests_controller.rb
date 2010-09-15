@@ -25,3 +25,4 @@ class HelpRequestsController < ApplicationController
     end
   end
 end
+
