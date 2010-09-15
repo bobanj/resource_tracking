@@ -1,9 +1,15 @@
 class ViewController < ApplicationController
 
   def index
-    @graph = open_flash_chart_object(500,250, '/projects/open_flash_chart/project', true, '/projects/')
+    respond_to do |wants|
+      wants.html {
+        @graph = open_flash_chart_object( 600, 300, url_for( :action => 'index' ) )
+      }
+    end
+
   end
-  def project
+
+  def bar
     bar = BarOutline.new(50, '#9933CC', '#8010A0')
     bar.key("Page VIEWS", 10)
 
