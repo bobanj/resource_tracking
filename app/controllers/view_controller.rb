@@ -1,9 +1,10 @@
 class ViewController < ApplicationController
 
+
   def index
-    respond_to do |wants|
-      wants.html {
-        @graph = open_flash_chart_object( 600, 300, url_for( :action => 'index' ) )
+    respond_to do |Project|
+      projects.html {
+        @graph = open_flash_chart_object( 500, 250, url_for( :action => 'index' ) )
       }
     end
 
