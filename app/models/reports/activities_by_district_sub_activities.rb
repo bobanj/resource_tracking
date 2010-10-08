@@ -4,7 +4,7 @@ class Reports::ActivitiesByDistrictSubActivities
   include Reports::Helpers
 
   def initialize
-    locations     = Location.find(:all, :select => 'id, short_display', :order => "short_display ASC")#.map(&:short_display).sort
+    locations     = Location.find(:all, :select => 'id, name', :order => "name ASC")
     beneficiaries = Beneficiary.find(:all, :select => 'short_display').map(&:short_display).sort
 
     @csv_string = FasterCSV.generate do |csv|
@@ -49,7 +49,7 @@ class Reports::ActivitiesByDistrictSubActivities
       header << "#{ben}"
     end
     header << ["activity.text_for_beneficiaries", "activity.text_for_targets", "activity.target", "activity.budget", "activity.spend", "currency", "activity.start", "activity.end", "activity.provider"]
-    locations.each { |loc| header << "#{loc.short_display}" }
+    locations.each { |loc| header << "#{loc.name}" }
     header << [ "sub_activity.provider", "sub_activity.budget", "sub_activity.budget_percentage", "sub_activity.spend", "sub_activity.spend_percentage" ]
     header.flatten
   end
@@ -57,7 +57,7 @@ class Reports::ActivitiesByDistrictSubActivities
   def build_row(activity, beneficiaries, locations)
     org        = activity.data_response.responding_organization
     act_benefs = activity.beneficiaries.map(&:short_display)
-    act_locs   = activity.locations.map(&:short_display)
+    act_locs   = activity.locations.map(&:name)
 
     row = []
     row << [ "#{h org.name}", "#{org.type}", "#{h activity.name}", "#{h activity.description}" ]
@@ -70,7 +70,7 @@ class Reports::ActivitiesByDistrictSubActivities
     # TODO for sub_implementers, need to create code assignment for them when the
     # sub_implementer.provider only works in one district (like a clinic)
     locations.each do |loc|
-      if act_locs.include?(loc.short_display)
+      if act_locs.include?(loc.name)
         row << get_amount(activity, loc)
       else
         row << " "

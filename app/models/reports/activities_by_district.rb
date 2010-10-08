@@ -4,7 +4,7 @@ class Reports::ActivitiesByDistrict
   include Reports::Helpers
 
   def initialize
-    locations     = Location.find(:all, :select => 'id, short_display', :order => "short_display ASC")
+    locations     = Location.find(:all, :select => 'id, name', :order => "name ASC")
     beneficiaries = Beneficiary.find(:all, :select => 'short_display').map(&:short_display).sort
 
     @csv_string = FasterCSV.generate do |csv|
@@ -42,14 +42,14 @@ class Reports::ActivitiesByDistrict
       header << "#{ben}"
     end
     header << ["activity.text_for_beneficiaries", "activity.text_for_targets", "activity.target", "activity.budget", "activity.spend", "currency", "activity.start", "activity.end", "activity.provider"]
-    locations.each { |loc| header << "#{loc.short_display}" }
+    locations.each { |loc| header << "#{loc.name}" }
     header.flatten
   end
 
   def build_row(activity, beneficiaries, locations)
     org        = activity.data_response.responding_organization
     act_benefs = activity.beneficiaries.map(&:short_display)
-    act_locs   = activity.locations.map(&:short_display)
+    act_locs   = activity.locations.map(&:name)
 
     row = []
     row << [ "#{h org.name}", "#{org.type}", "#{h activity.name}", "#{h activity.description}" ]
@@ -60,7 +60,7 @@ class Reports::ActivitiesByDistrict
     row << (activity.provider.nil? ? " " : "#{ activity.provider.name}" )
 
     locations.each do |loc|
-      if act_locs.include?(loc.short_display)
+      if act_locs.include?(loc.name)
         row << get_amount(activity, loc)
       else
         row << " "

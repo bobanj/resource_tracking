@@ -5,6 +5,7 @@ class Reports::DistrictCodingsBudgetReport < Reports::RowEachCodedActivityReport
 
   def initialize # codes= nil, get_codes_array_method = nil, code_id_method = nil
     codes = []
+    #TODO: fix with new Locations, which are no longer Codes
     Location.roots.each { |c| codes << c.self_and_descendants }
     super( codes.flatten, :budget_district_coding, :code_id, "District")
   end

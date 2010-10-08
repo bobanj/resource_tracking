@@ -6,7 +6,7 @@
           = text_field_tag "activity[budget_district][#{district.id}]", "", :size => 3 #h(number_to_percentage(district.percentage))
           = label_tag "activity[budget_district][#{district.id}]", "%"
 
-          = district.short_display
+          = district.name
     = submit_tag 'Save'
 
   = render 'shared/data_entry_help', :record_type => CodeAssignment
