@@ -2,6 +2,14 @@
 // This file is automatically included by javascript_include_tag :defaults
 jQuery.noConflict()
 
+var projects_new = projects_edit = projects_create = projects_update = {
+  run: function () {
+    jQuery("legend").click(function (e) {
+        $(this).next('ol').toggle();
+    })
+  }
+}
+
 var code_assignments_show = {
   run: function () {
 

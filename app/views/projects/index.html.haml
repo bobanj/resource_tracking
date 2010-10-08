@@ -2,3 +2,27 @@
 = render :partial => 'layouts/contents/page_help'
 = render :partial => 'layouts/contents/side_bar'
 = render :partial => 'layouts/contents/comments'
+
+= link_to "New project", new_project_path
+
+#main_table
+  %table
+    %thead
+      %tr
+        %th Organization
+        %th Name
+        %th Description
+        %th Total Budget GOR FY 10-11
+        %th Total Spend GOR FY 09-10
+        %th Manage
+    %tbody
+      - @projects.each do |project|
+        %tr
+          %th= project.try(:organization)
+          %th= project.name
+          %th= project.description
+          %th= project.budget
+          %th= project.spend
+          %td 
+            = link_to "Edit", edit_project_path(project)
+            = link_to "Delete", project_path(project), :method => "delete", :confirm => "Are you sure?"

@@ -33,12 +33,17 @@ class Project < ActiveRecord::Base
   configure_act_as_data_element
 
   acts_as_stripper
+
+  # Associations
   has_and_belongs_to_many :activities
   has_and_belongs_to_many :locations
   has_many :funding_flows #, :dependent => :nullify
-
   has_many :funding_sources, :through => :funding_flows, :class_name => "Organization", :source => :from
   has_many :providers, :through => :funding_flows, :class_name => "Organization", :source => :to
+  has_one :owner, :through => :data_response, :source => :responding_organization
+  belongs_to :data_response
+
+  accepts_nested_attributes_for :locations
 
   # Validations
   validates_presence_of :name, :data_response_id
@@ -50,9 +55,11 @@ class Project < ActiveRecord::Base
   validates_dates_order :start_date, :end_date, :message => "Start date must come before End date."
   validate :validate_budgets, :if => Proc.new { |model| model.budget.present? && model.entire_budget.present? }
 
+  # Attributes
   attr_accessible :name, :description, :spend, :budget, :entire_budget,
-                  :start_date, :end_date, :currency
+                  :start_date, :end_date, :currency, :data_response, :location_ids
 
+  # Callbacks
   after_create :create_helpful_records_for_workflow
 
   def organization
