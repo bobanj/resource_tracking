@@ -26,7 +26,6 @@ ActionController::Routing::Routes.draw do |map|
       :collection => {:browse => :get},
       :member => {:select => :post}, :active_scaffold => true
 
-
   map.resources :activities,
                 :member => { :approve => :put, :use_budget_codings_for_spend => :put },
                 :active_scaffold => true          do |activity|

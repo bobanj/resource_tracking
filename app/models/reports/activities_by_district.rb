@@ -4,7 +4,7 @@ class Reports::ActivitiesByDistrict
   include Reports::Helpers
 
   def initialize
-    locations     = Location.find(:all, :select => 'id, short_display', :order => "short_display ASC")#.map(&:short_display).sort
+    locations     = Location.find(:all, :select => 'id, short_display', :order => "short_display ASC")
     beneficiaries = Beneficiary.find(:all, :select => 'short_display').map(&:short_display).sort
 
     @csv_string = FasterCSV.generate do |csv|

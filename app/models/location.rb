@@ -18,7 +18,12 @@
 #  external_id         :string(255)
 #
 
-class Location < Code
+class Location < ActiveRecord::Base
+
+  attr_accessible :name
+
+  validates_presence_of :name
+
   has_and_belongs_to_many :projects
   has_and_belongs_to_many :activities
   has_and_belongs_to_many :organizations

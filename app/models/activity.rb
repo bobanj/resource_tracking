@@ -114,7 +114,7 @@ class Activity < ActiveRecord::Base
 
   #TODO TODO make methods like this for the spend_coding etc
   def budget_coding
-    code_assignments.with_type(CodingBudget.to_s) 
+    code_assignments.with_type(CodingBudget.to_s)
   end
 
   def budget_by_district?
@@ -126,10 +126,10 @@ class Activity < ActiveRecord::Base
     if val.empty? && budget
       #create even split across locations
       assignments = []
-      locations.each do |l|
+      locations.each do |location|
         ca = CodeAssignment.new
         ca.activity_id = self.id
-        ca.code_id = l.id
+        ca.code_id = location.id
         ca.cached_amount = budget / locations.size
         ca.amount = budget / locations.size
         assignments << ca
@@ -145,27 +145,19 @@ class Activity < ActiveRecord::Base
   end
 
   def budget_cost_category_coding
-    code_assignments.with_type(CodingBudgetCostCategorization.to_s) 
+    code_assignments.with_type(CodingBudgetCostCategorization.to_s)
   end
 
   def spend?
-    #if self.use_budget_codings_for_spend? && self.budget && self.budget!=0
-      #budget?
-    #else
-      CodingSpend.classified(self)
-    #end
+    CodingSpend.classified(self)
   end
 
   def spend_coding
-    code_assignments.with_type(CodingSpend.to_s) 
+    code_assignments.with_type(CodingSpend.to_s)
   end
 
   def spend_by_district?
-    #if self.use_budget_codings_for_spend?
-      #budget_by_district?
-    #else
-      CodingSpendDistrict.classified(self)
-    #end
+    CodingSpendDistrict.classified(self)
   end
 
   def spend_district_coding
@@ -173,10 +165,10 @@ class Activity < ActiveRecord::Base
     if val.empty? && spend
       #create even split across locations
       assignments = []
-      locations.each do |l|
+      locations.each do |location|
         ca = CodeAssignment.new
         ca.activity_id = self.id
-        ca.code_id = l.id
+        ca.code_id = location.id
         ca.cached_amount = spend / locations.size
         ca.amount = spend / locations.size
         assignments << ca
@@ -188,15 +180,11 @@ class Activity < ActiveRecord::Base
   end
 
   def spend_by_cost_category?
-    #if self.use_budget_codings_for_spend?
-      #budget_by_cost_category?
-    #else
-      CodingSpendCostCategorization.classified(self)
-    #end
+    CodingSpendCostCategorization.classified(self)
   end
 
   def spend_cost_category_coding
-    code_assignments.with_type(CodingSpendCostCategorization.to_s) 
+    code_assignments.with_type(CodingSpendCostCategorization.to_s)
   end
 
   def budget_classified?
@@ -227,12 +215,6 @@ class Activity < ActiveRecord::Base
     end
   end
 
-#  def self.add_coding_accessor type, method_name
-#    def method_name
-#      self.code_assignments.with_type(type) 
-#    end
-#  end
-
   STRAT_PROG_TO_CODES_FOR_TOTALING = {
     "Quality Assurance" => [ "6","7","8","9","11"],
     "Commodities, Supply and Logistics" => ["5"],
@@ -252,7 +234,7 @@ class Activity < ActiveRecord::Base
   def budget_stratprog_coding
     assigns_for_strategic_codes budget_coding, STRAT_PROG_TO_CODES_FOR_TOTALING, HsspBudget
   end
-  
+
   def spend_stratprog_coding
     assigns_for_strategic_codes spend_coding, STRAT_PROG_TO_CODES_FOR_TOTALING, HsspSpend
   end
@@ -260,7 +242,7 @@ class Activity < ActiveRecord::Base
   def budget_stratobj_coding
     assigns_for_strategic_codes budget_coding, STRAT_OBJ_TO_CODES_FOR_TOTALING, HsspBudget
   end
-  
+
   def spend_stratobj_coding
     assigns_for_strategic_codes spend_coding, STRAT_OBJ_TO_CODES_FOR_TOTALING, HsspSpend
   end
@@ -270,7 +252,7 @@ class Activity < ActiveRecord::Base
     #first find the top level code w strat program
     strat_hash.each do |prog, code_ids|
       assigns_in_codes = assigns.select { |ca| code_ids.include?(ca.code.external_id)}
-      amount = 0 
+      amount = 0
       assigns_in_codes.each do |ca|
         amount += ca.calculated_amount
       end
@@ -284,7 +266,7 @@ class Activity < ActiveRecord::Base
     assignments
   end
 
-  # This method copies code assignments when user has chosen to use 
+  # This method copies code assignments when user has chosen to use
   # budget codings for expenditure: Following code assignments are copied:
   # CodingBudget -> CodingSpend
   # CodingBudgetDistrict -> CodingSpendDistrict
