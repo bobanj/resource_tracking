@@ -1,4 +1,4 @@
-- semantic_form_for @project, :html => {:multipart => true} do |f|
+- semantic_form_for project, :html => {:multipart => true} do |f|
   = f.semantic_errors :state
   - f.inputs do
     - f.inputs "Basic", :id => "basic" do
@@ -7,7 +7,7 @@
       = f.input :start_date, :label => 'Start date', :as => :string, :input_html => {:class => "date_picker"}
       = f.input :end_date, :label => 'End date', :as => :string, :input_html => {:class => "date_picker"}
       = f.input :currency, :label => 'Currency (if different)', :required => false
-      = f.input :locations, :label => 'Districts Worked In ', :as => :check_boxes, :required => false#, :collection => Location.find(:all, :order => "short_display ASC")
+      = f.input :locations, :label => 'Districts Worked In ', :as => :check_boxes, :required => false
     - f.inputs "Planned Expenditure", :id => "planned_expenditure" do
       = f.input :entire_budget, :label => 'Total Project Budget', :required => false
       = f.input :budget, :label => 'Total Budget GOR FY 10-11', :required => false
@@ -19,4 +19,7 @@
       = f.input :spend_q3, :label => 'Spend in Your FY 09-10 Q3', :required => false
       = f.input :spend_q4, :label => 'Spend in Your FY 09-10 Q4', :required => false
     - f.buttons do
-      = f.commit_button @project.new_record? ? "Create project" : "Update project"
+      / js event: .cancel_create_btn, .cancel_update_btn
+      = link_to "Cancel", projects_path, :class => "cancel_btn"
+      / js event: .create_btn, .update_btn
+      = f.commit_button :label => (project.new_record? ? "Create project" : "Update project"), :button_html => { :class => "submit_btn" }

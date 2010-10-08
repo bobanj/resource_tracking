@@ -15,25 +15,51 @@ class ProjectsController < ApplicationController
 
   def new
     @project = Project.new
-    @project.location_ids = [] #save on db selects
+    @project.location_ids = [] # cut on db selects
+    respond_to do |format|
+      format.html
+      format.js { render :partial => "form", :locals => {:project => @project } }
+    end
+  end
+
+  def show
+    @project = Project.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.js { render :partial => 'row', :locals => {:project => resource} }
+    end
   end
 
   def edit
     @project = Project.find(params[:id], :include => :locations) # eager load locations
+    respond_to do |format|
+      format.html
+      format.js { render :partial => "form", :locals => {:project => @project } }
+    end
   end
 
   def create
     create! do |success, failure|
-      success.html { redirect_to projects_url }
-      failure.html { render :action => "new" }
+      success.html { redirect_to resources_url }
+      failure.html { render :action => "edit" }
+      success.js { render :partial => "row",  :locals => {:project => resource} }
+      failure.js { render :partial => "form", :locals => {:project => resource}, :status => :partial_content } # :partial_content => 206
     end
   end
 
   def update
-    #raise params[:project].to_yaml
     update! do |success, failure|
-      success.html { redirect_to projects_url }
+      success.html { redirect_to resources_url }
       failure.html { render :action => "edit" }
+      success.js   { render :partial => "row",  :locals => {:project => resource} }
+      failure.js   { render :partial => "form", :locals => {:project => resource}, :status => :partial_content } # :partial_content => 206
+    end
+  end
+
+  def destroy
+    destroy! do |success|
+      success.html { redirect_to resources_url }
+      success.js   { render :nothing => true }
     end
   end
 

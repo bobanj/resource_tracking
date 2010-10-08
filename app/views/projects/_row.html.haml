@@ -1,0 +1,10 @@
+%tr{:id => "row_#{project.id}"}
+  %th= project.try(:organization)
+  %th= project.name
+  %th= project.description
+  %th= project.budget
+  %th= project.spend
+  %td 
+    / js event
+    = link_to "Edit", edit_project_path(project), :class => "edit_btn"
+    = link_to "Delete", project_path(project), :class => "destroy_btn"
