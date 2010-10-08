@@ -196,14 +196,6 @@ class ActiveScaffoldController < ApplicationController
     as_column.options[:i18n_options] = {:precision => 0}
   end
 
-  def check_user_has_data_response
-    unless current_user.current_data_response || current_user.role?(:admin)
-      flash[:warning] = "Please first click on one of the links underneath \"Data Requests to Fulfill\" to continue. We will remember which data request you were responding to the next time you login, so you won't see this message again."
-      #TODO email the file and have someone get back to helping them
-      redirect_to user_dashboard_path(current_user)
-    end
-  end
-
   # Does not check that this is a valid class
   def controller_model_class
     c = controller_name.to_s.pluralize.singularize.camelize.constantize
