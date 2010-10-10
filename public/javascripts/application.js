@@ -11,42 +11,86 @@ var get_resource_id = function (element) {
 };
 
 var get_resource_name = function (element) {
-  return element.parents('#resources_div').attr('class');
+  return element.parents('#resources').attr('class');
 };
 
 var get_form = function (element) {
   return element.parents('form');
 };
 
+var add_new_form = function (data) {
+  jQuery('#placer').prepend(data);
+};
+
+var add_edit_form = function (row_id, data) {
+  jQuery('#' + row_id).html('<td>' + data + '</td>').addClass("edit_row");
+};
+
+var add_new_row = function (data) {
+  jQuery('table#main_table tbody').prepend(data);
+};
+
+var add_existing_row = function (row_id, data) {
+  jQuery('#' + row_id).replaceWith(data);
+};
+
 var add_form = function (data, row_id) {
   if (row_id) {
-    jQuery('#' + row_id).html('<td>' + data + '</td>').addClass("edit_row");
   } else {
-    jQuery('#resource_new').html(data);
   }
 };
 
-var add_row = function (data, row_id) {
-  if (row_id) {
-    jQuery('#' + row_id).replaceWith(data);
-  } else {
-    remove_form();
-    jQuery('table#main_table tbody').prepend(data);
+var add_search_form = function (element) {
+  if (element.hasClass('enabled')) {
+    disable_element(element);
+    var resource_name = get_resource_name(element);
+    jQuery.get(resource_name + '/search.js', function (data) {
+      jQuery('#placer').prepend(data);
+    });
   }
+}
+
+var close_form = function (element) {
+  element.parents('.form_box').remove();
 };
 
 var remove_row = function (row_id) {
   jQuery("#" + row_id).remove();
+};
+
+var disable_element = function (element) {
+  element.removeClass('enabled').addClass('disabled');
 }
 
-var remove_form = function () {
-  jQuery('#resource_new form').remove();
+var enable_element = function (element) {
+  element.removeClass('disabled').addClass('enabled');
 }
 
 var new_resource = function (element) {
+  if (element.hasClass('enabled')) {
+    disable_element(element);
+    var resource_name = get_resource_name(element);
+    jQuery.get(resource_name + '/new.js', function (data) {
+      add_new_form(data);
+    });
+  }
+};
+
+var replaceData = function (data) {
+  jQuery("#main_table tbody").html(data);
+};
+
+var search_resources = function (element, type) {
   var resource_name = get_resource_name(element);
-  jQuery.get(resource_name + '/new.js', function (data) {
-    add_form(data);
+  var form = get_form(element);
+  var q = (type === "reset") ? '' : form.find("#s_q").val();
+
+  jQuery.get(resource_name + '.js?q=' + q, function (data) {
+    replaceData(data);
+    if (type === "reset") {
+     close_form(element);
+     enable_element(jQuery(".search_btn"));
+    }
   });
 };
 
@@ -55,7 +99,7 @@ var edit_resource = function (element) {
   var resource_id = get_resource_id(element)
   var resource_name = get_resource_name(element);
   jQuery.get(resource_name + '/' + resource_id + '/edit.js', function (data) {
-    add_form(data, row_id);
+    add_edit_form(row_id, data);
   });
 };
 
@@ -65,7 +109,8 @@ var update_resource = function (element) {
   var resource_name = get_resource_name(element);
   var form = get_form(element);
   jQuery.post(resource_name + '/' + resource_id + '.js', form.serialize(), function (data, status, response) {
-    response.status === 206 ? add_form(data, row_id) : add_row(data, row_id); // 206 - partial content
+    close_form(element);
+    response.status === 206 ? add_edit_form(row_id, data) : add_existing_row(row_id, data); // 206 - partial content
   });
 };
 
@@ -73,7 +118,8 @@ var create_resource = function (element) {
   var resource_name = get_resource_name(element);
   var form = get_form(element);
   jQuery.post(resource_name + '.js', form.serialize(), function (data, status, response) {
-    response.status === 206 ? add_form(data) : add_row(data); // 206 - partial content
+    close_form(element);
+    response.status === 206 ? add_new_form(data) : add_new_row(data); // 206 - partial content
   });
 };
 
@@ -82,7 +128,8 @@ var show_resource = function (element) {
   var resource_id = get_resource_id(element)
   var resource_name = get_resource_name(element);
   jQuery.get(resource_name + '/' + resource_id + '.js', function (data) {
-    add_row(data, row_id);
+    close_form(element);
+    add_existing_row(row_id, data);
   });
 };
 
@@ -95,9 +142,9 @@ var destroy_resource = function (element) {
   });
 };
 
-var update_form = function (element) {
-  // if form is in the main table, then it is update, otherwise it is create
-  return element.parents('table#main_table').length;
+var get_form_type = function (element) {
+  // new_form => new; edit_form => edit
+  return element.parents('.form_box').attr('class').replace(/form_box /, '').split('_')[0];
 }
 
 var projects_index = {
@@ -121,14 +168,36 @@ var projects_index = {
     jQuery(".submit_btn").live('click', function (e) {
       e.preventDefault();
       var element = jQuery(this);
-      update_form(element) ? update_resource(element) : create_resource(element);
+      var form_type = get_form_type(element);
+
+      if (form_type === "new") {
+        create_resource(element);
+      } else if (form_type === "edit") {
+        update_resource(element);
+      } else if (form_type === "search") {
+        search_resources(element);
+      } else {
+        throw "Unknown form type: " + form_type;
+      }
     });
 
     // cancel
     jQuery(".cancel_btn").live('click', function (e) {
       e.preventDefault();
       var element = jQuery(this);
-      update_form(element) ? show_resource(element) : remove_form();
+      var form_type = get_form_type(element);
+
+      if (form_type === "new") {
+        close_form(element);
+        enable_element(jQuery(".new_btn"));
+      } else if (form_type === "edit") {
+        show_resource(element);
+      } else if (form_type === "search") {
+        close_form(element);
+        enable_element(jQuery(".search_btn"));
+      } else {
+        throw "Unknown form type:" + form_type;
+      }
     });
 
     // destroy
@@ -138,6 +207,20 @@ var projects_index = {
       if (confirm('Are you sure?')) {
         destroy_resource(element);
       }
+    });
+
+    // search
+    jQuery(".search_btn").live('click', function (e) {
+      e.preventDefault();
+      var element = jQuery(this);
+      add_search_form(element);
+    });
+
+    // reset
+    jQuery(".reset_btn").live('click', function (e) {
+      e.preventDefault();
+      var element = jQuery(this);
+      search_resources(element, 'reset');
     });
 
   }

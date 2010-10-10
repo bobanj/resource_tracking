@@ -10,7 +10,19 @@ class ProjectsController < ApplicationController
   respond_to :html, :js
 
   def index
-    @projects = current_user.current_data_response.projects.find(:all, :order => "created_at DESC")
+    @projects = current_user.current_data_response.projects.matching(params[:q]).find(:all, :order => "created_at DESC")
+
+    respond_to do |format|
+      format.html
+      format.js { render :partial => 'row', :collection => @projects, :as => :project }
+    end
+  end
+
+  def search
+    respond_to do |format|
+      format.html
+      format.js { render :action => "search", :layout => false }
+    end
   end
 
   def new

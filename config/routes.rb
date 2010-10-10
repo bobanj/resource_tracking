@@ -18,9 +18,7 @@ ActionController::Routing::Routes.draw do |map|
   map.providers_data_entry "providers",
     :controller => 'providers', :action => 'index'
 
-  map.resources :projects,
-    :collection => {:browse => :get},
-    :member => {:select => :post}, :active_scaffold => true
+  map.resources :projects, :collection => {:search => :get}
 
   map.resources :organizations,
       :collection => {:browse => :get},

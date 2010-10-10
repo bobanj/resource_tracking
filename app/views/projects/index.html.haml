@@ -3,16 +3,18 @@
 = render :partial => 'layouts/contents/side_bar'
 = render :partial => 'layouts/contents/comments'
 
-/ js event: #resources_div, .projects
-#resources_div.projects
+/ js event: #resources, .projects
+#resources.projects
 
   %h2 Projects
   .actions
-    / js event: .new_btn
-    = link_to "Create new", new_project_path, :class => "new_btn"
+    / js event: .new_btn, .enabled
+    = link_to "Create new", new_project_path, :class => "new_btn enabled"
+    / js event: .search_btn, .enabled
+    = link_to "Search", search_projects_path, :class => "search_btn enabled"
 
-  / js event: #resource_new
-  #resource_new
+  / js event: #placer
+  #placer
 
   / js event: table#main_table
   %table#main_table
@@ -27,3 +29,8 @@
     / js event: table#main_table tbody
     %tbody
       = render :partial => 'row', :collection => @projects, :as => :project
+
+  #total
+    = "#{@projects.count} Found"
+
+  = link_to "Next step", funding_sources_data_entry_path, :class => "next right"

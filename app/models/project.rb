@@ -22,16 +22,11 @@
 #
 
 require 'lib/acts_as_stripper' #TODO move
-require 'lib/ActAsDataElement'
 require 'validators'
 
 class Project < ActiveRecord::Base
   acts_as_commentable
-
-  include ActAsDataElement
   include ActsAsDateChecker
-  configure_act_as_data_element
-
   acts_as_stripper
 
   # Associations
@@ -43,7 +38,8 @@ class Project < ActiveRecord::Base
   has_one :owner, :through => :data_response, :source => :responding_organization
   belongs_to :data_response
 
-  accepts_nested_attributes_for :locations
+  # Named scopes
+  named_scope :matching, lambda {|value| value.blank? ? {} : {:conditions => ["name LIKE :value OR currency LIKE :value OR description LIKE :value", {:value => "%#{value}%"}]} }
 
   # Validations
   validates_presence_of :name, :data_response_id
@@ -58,6 +54,7 @@ class Project < ActiveRecord::Base
   # Attributes
   attr_accessible :name, :description, :spend, :budget, :entire_budget,
                   :start_date, :end_date, :currency, :data_response, :location_ids
+  accepts_nested_attributes_for :locations
 
   # Callbacks
   after_create :create_helpful_records_for_workflow
