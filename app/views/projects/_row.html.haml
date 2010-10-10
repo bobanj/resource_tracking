@@ -1,7 +1,7 @@
-%tr{:id => "row_#{project.id}"}
+%tr{:id => "row_#{project.id}", :"data-object" => "project", :"data-url" => "/projects/#{project.id}"}
   %th= project.try(:organization)
-  %th= project.name
-  %th= project.description
+  %th{:class => "rest_in_place", :"data-attribute" => "name" }= project.name
+  %th{:class => "rest_in_place", :"data-attribute" => "description" }= project.description
   %th= project.budget
   %th= project.spend
   %td 

@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
   inherit_resources
 
   # Respond type
-  respond_to :html, :js
+  respond_to :html, :js, :json
 
   def index
     @projects = current_user.current_data_response.projects.matching(params[:q]).find(:all, :order => "created_at DESC")
@@ -38,7 +38,8 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     respond_to do |format|
       format.html
-      format.js { render :partial => 'row', :locals => {:project => resource} }
+      format.js   { render :partial => 'row', :locals => {:project => resource} }
+      format.json { render :json => @project }
     end
   end
 
@@ -54,8 +55,8 @@ class ProjectsController < ApplicationController
     create! do |success, failure|
       success.html { redirect_to resources_url }
       failure.html { render :action => "edit" }
-      success.js { render :partial => "row",  :locals => {:project => resource} }
-      failure.js { render :partial => "form", :locals => {:project => resource}, :status => :partial_content } # :partial_content => 206
+      success.js   { render :partial => "row",  :locals => {:project => resource} }
+      failure.js   { render :partial => "form", :locals => {:project => resource}, :status => :partial_content } # :partial_content => 206
     end
   end
 
@@ -65,6 +66,8 @@ class ProjectsController < ApplicationController
       failure.html { render :action => "edit" }
       success.js   { render :partial => "row",  :locals => {:project => resource} }
       failure.js   { render :partial => "form", :locals => {:project => resource}, :status => :partial_content } # :partial_content => 206
+      success.json { render :nothing =>  true }
+      failure.json { render :nothing =>  true }
     end
   end
 

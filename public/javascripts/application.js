@@ -31,7 +31,10 @@ var add_new_row = function (data) {
 };
 
 var add_existing_row = function (row_id, data) {
-  jQuery('#' + row_id).replaceWith(data);
+  var row = jQuery('#' + row_id);
+  row.replaceWith(data)
+  var new_row = jQuery('#' + row_id);
+  new_row.find(".rest_in_place").rest_in_place();
 };
 
 var add_form = function (data, row_id) {
@@ -348,9 +351,11 @@ jQuery(function () {
     }).focus();
   });
 
-
   // Collapse / expand form fieldsets
   jQuery("legend").live('click', function (e) {
     $(this).next('ol').toggle();
   })
+
+  // Inplace edit
+  jQuery(".rest_in_place").rest_in_place();
 })
