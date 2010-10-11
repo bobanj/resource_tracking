@@ -9,6 +9,9 @@ class ApplicationController < AuthlogicController
 
   include ApplicationHelper
 
+  # Sortable table
+  include SortableTable::App::Controllers::ApplicationController
+
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = "You are not authorized to do that"
     redirect_to login_url

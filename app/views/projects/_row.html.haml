@@ -1,4 +1,4 @@
-%tr{:id => "row_#{project.id}", :"data-object" => "project", :"data-url" => "/projects/#{project.id}"}
+%tr{:id => "row_#{project.id}", :"data-object" => "project", :"data-url" => "/projects/#{project.id}", :class => cycle("even", "odd")}
   %th= project.try(:organization)
   %th{:class => "rest_in_place", :"data-attribute" => "name" }= project.name
   %th{:class => "rest_in_place", :"data-attribute" => "description" }= project.description

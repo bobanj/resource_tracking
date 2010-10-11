@@ -1,6 +1,9 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+  # Sortable table
+  include SortableTable::App::Helpers::ApplicationHelper
+
   # Usage: simply invoke title() at the top of each view
   # E.g.
   # - title "Home"

@@ -1,5 +1,8 @@
 class ProjectsController < ApplicationController
 
+  # Sortable table
+  sortable_attributes :name, :description, :budget, :spend, :organization => "organizations.name"
+
   authorize_resource
   before_filter :check_user_has_data_response, :load_model_help
 
@@ -10,7 +13,7 @@ class ProjectsController < ApplicationController
   respond_to :html, :js, :json
 
   def index
-    @projects = current_user.current_data_response.projects.matching(params[:q]).find(:all, :order => "created_at DESC")
+    @projects = current_user.current_data_response.projects.matching(params[:q]).find(:all, :order => sort_order(:default => 'ascending'), :joins => {:data_response => :responding_organization})
 
     respond_to do |format|
       format.html

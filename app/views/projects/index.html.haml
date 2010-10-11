@@ -20,11 +20,11 @@
   %table#main_table
     %thead
       %tr
-        %th Organization
-        %th Name
-        %th Description
-        %th Total Budget GOR FY 10-11
-        %th Total Spend GOR FY 09-10
+        = sortable_table_header :name => "Organization",  :sort => "organization"
+        = sortable_table_header :name => "Name",  :sort => "name"
+        = sortable_table_header :name => "Description",  :sort => "description"
+        = sortable_table_header :name => "Total Budget GOR FY 10-11",  :sort => "budget"
+        = sortable_table_header :name => "Total Spend GOR FY 09-10",  :sort => "spend"
         %th Manage
     / js event: table#main_table tbody
     %tbody
