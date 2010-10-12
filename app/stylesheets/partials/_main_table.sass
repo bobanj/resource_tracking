@@ -38,13 +38,19 @@ body.app #content .wrapper #main #resources
     padding: 5px
     width: 400px
     +border-radius
+    &:hover, &:active, &:focus
+      +box-shadow(#ccc, 0, 0, 5px)
+  
+  textarea
+    height: 200px
+    
+  input[type="submit"]
+    width: auto
     
   #main_table
     border-right: 1px solid $lightest-blue
     width: 100%
     
-    ol fieldset
-      border-bottom: 1px dashed red
     thead 
     
       th, td
@@ -79,8 +85,6 @@ body.app #content .wrapper #main #resources
           background: $lightest-blue + #0a0a0a
         &.even
           background: $lightest-blue + #0fffff
-        &:hover
-          background: white
           
   #placer
     background: $lightest-blue + #0fffff
@@ -93,6 +97,37 @@ body.app #content .wrapper #main #resources
     legend
       color: $mid-blue
       font-weight: bold
-      padding-bottom: 10px
+      padding-bottom: 20px
       padding-left: 40px
       text-transform: uppercase
+      
+    .form_box
+      padding: 30px 0
+      position: relative
+      .close
+        position: absolute
+        right: 60px
+        top: 60px
+      
+    .check_boxes
+      legend, label
+        padding-left: 20px
+      input
+        width: auto
+      ol
+        padding-left: 225px
+        li
+          float: left
+          width: 160px
+          
+    #basic, #planned_expenditure
+      border-bottom: 1px dashed $lightest-blue
+      margin-bottom: 40px
+      padding-bottom: 15px
+      
+    .buttons
+      padding-left: 240px
+      
+      .cancel_btn
+        display: inline-block
+        padding: 10px 0 0 10px

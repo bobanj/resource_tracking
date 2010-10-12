@@ -34,7 +34,7 @@ var add_existing_row = function (row_id, data) {
   var row = jQuery('#' + row_id);
   row.replaceWith(data)
   var new_row = jQuery('#' + row_id);
-  new_row.find(".rest_in_place").rest_in_place();
+  new_row.find(".rest_in_place").rest_in_place(); // inplace edit
 };
 
 var add_form = function (data, row_id) {
@@ -79,8 +79,9 @@ var new_resource = function (element) {
   }
 };
 
-var replaceData = function (data) {
-  jQuery("#main_table tbody").html(data);
+var replaceTable = function (data) {
+  jQuery("#main_table").replaceWith(data);
+  jQuery("#main_table").find(".rest_in_place").rest_in_place(); // inplace edit
 };
 
 var search_resources = function (element, type) {
@@ -89,7 +90,7 @@ var search_resources = function (element, type) {
   var q = (type === "reset") ? '' : form.find("#s_q").val();
 
   jQuery.get(resource_name + '.js?q=' + q, function (data) {
-    replaceData(data);
+    replaceTable(data);
     if (type === "reset") {
      close_form(element);
      enable_element(jQuery(".search_btn"));
@@ -144,6 +145,15 @@ var destroy_resource = function (element) {
     remove_row(row_id);
   });
 };
+
+var sort_resources = function (element) {
+  var link = element.find('a');
+  var resource_name = get_resource_name(element);
+  var url = resource_name + '.js?' + link.attr('href').replace(/.*\?/, '');
+  jQuery.get(url, function (data) {
+    replaceTable(data);
+  });
+}
 
 var get_form_type = function (element) {
   // new_form => new; edit_form => edit
@@ -226,6 +236,12 @@ var projects_index = {
       search_resources(element, 'reset');
     });
 
+    // sort
+    jQuery("#main_table thead th").live('click', function (e) {
+      e.preventDefault();
+      var element = jQuery(this);
+      sort_resources(element);
+    });
   }
 };
 

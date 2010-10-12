@@ -39,7 +39,7 @@ class Project < ActiveRecord::Base
   belongs_to :data_response
 
   # Named scopes
-  named_scope :matching, lambda {|value| value.blank? ? {} : {:conditions => ["name LIKE :value OR currency LIKE :value OR description LIKE :value", {:value => "%#{value}%"}]} }
+  named_scope :matching, lambda {|value| value.blank? ? {} : {:conditions => ["projects.name LIKE :value OR projects.currency LIKE :value OR projects.description LIKE :value", {:value => "%#{value}%"}]} }
 
   # Validations
   validates_presence_of :name, :data_response_id
