@@ -7,11 +7,11 @@
 #resources.projects
 
   %h2 Projects
-  .actions
+  %ul.actions
     / js event: .new_btn, .enabled
-    = link_to "Create new", new_project_path, :class => "new_btn enabled"
+    %li= link_to "Create new", new_project_path, :class => "new_btn enabled"
     / js event: .search_btn, .enabled
-    = link_to "Search", search_projects_path, :class => "search_btn enabled"
+    %li= link_to "Search", search_projects_path, :class => "search_btn enabled"
 
   / js event: #placer
   #placer
@@ -25,7 +25,7 @@
         = sortable_table_header :name => "Description",  :sort => "description"
         = sortable_table_header :name => "Total Budget GOR FY 10-11",  :sort => "budget"
         = sortable_table_header :name => "Total Spend GOR FY 09-10",  :sort => "spend"
-        %th Manage
+        %td Manage
     / js event: table#main_table tbody
     %tbody
       = render :partial => 'row', :collection => @projects, :as => :project

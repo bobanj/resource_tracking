@@ -1,0 +1,98 @@
+/* new styles for the formtastic tables */
+body.app #content .wrapper #main #resources
+  .close
+    background: url("../../../images/active_scaffold/default/close.gif")
+    float: right
+    height: 17px
+    text-indent: -4000px
+    width: 16px
+
+  .disabled
+    cursor: default
+  
+  .actions
+    +horizontal-list
+    border: 1px solid #ddd
+    float: right
+    font-size: 0.8em
+    margin: -26px 6px 0 0
+    +border-radius(4px)
+    li
+      &:first-child
+        padding: 0
+        a
+          +border-left-radius(4px)
+          margin-right: 1px
+      &:last-child
+        padding: 0
+        a
+          +border-right-radius(4px)
+    a
+      background: white
+      display: inline-block
+      padding: 5px 5px 3px
+      &:hover
+        text-decoration: none
+  input, textarea
+    border: 1px solid !light-blue
+    padding: 5px
+    width: 400px
+    +border-radius
+    
+  #main_table
+    border-right: 1px solid $lightest-blue
+    width: 100%
+    
+    ol fieldset
+      border-bottom: 1px dashed red
+    thead 
+    
+      th, td
+        color: white
+        font-size: 0.7em
+        &:hover
+          background: !dark-blue
+      td
+        background: !mid-blue
+        border-left: 1px solid !dark-blue
+        padding-left: 10px
+      a
+        color: white
+        display: inline-block
+        font-size: 1em
+        padding: 5px 10px
+        width: 100%
+        
+    td
+      font-size: 0.8em
+      padding-left: 10px
+    
+    tbody
+      th, td
+        border-bottom: 1px solid $lightest-blue
+        border-left: 1px solid $lightest-blue
+      th
+        font-size: 0.7em
+        padding: 5px 10px
+      tr
+        &.odd
+          background: $lightest-blue + #0a0a0a
+        &.even
+          background: $lightest-blue + #0fffff
+        &:hover
+          background: white
+          
+  #placer
+    background: $lightest-blue + #0fffff
+    border: 1px solid $lightest-blue
+    label
+      color: $mid-blue
+      font-size: 0.8em
+      padding-left: 40px
+      vertical-align: center
+    legend
+      color: $mid-blue
+      font-weight: bold
+      padding-bottom: 10px
+      padding-left: 40px
+      text-transform: uppercase
