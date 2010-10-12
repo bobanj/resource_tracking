@@ -14,10 +14,11 @@ body.app #content .wrapper #main #resources
     +horizontal-list
     border: 1px solid #ddd
     float: right
-    font-size: 0.8em
+    font-size: 0.85em
     margin: -26px 6px 0 0
     +border-radius(4px)
     li
+      color: $mid-blue
       &:first-child
         padding: 0
         a
@@ -27,10 +28,34 @@ body.app #content .wrapper #main #resources
         padding: 0
         a
           +border-right-radius(4px)
+      
+    .new_btn
+      background: image_url("lightning-bolt.png") no-repeat white 5px 4px
+      color: $mid-blue
+      padding-left: 15px
+      &:hover
+        background: image_url("lightning-bolt-hover.png") no-repeat 5px 4px $mid-blue
+        color: white
+    .search_btn
+      background: image_url("magnifying-glass.png") no-repeat white 5px 4px
+      color: $mid-blue
+      padding-left: 20px
+      &:hover
+        background: image_url("magnifying-glass-hover.png") no-repeat 5px 4px $mid-blue
+        color: white
+
+    .disabled
+      background: image_url("lightning-bolt-disabled.png") no-repeat white 5px 4px
+      color: #bbb
+      &:hover
+        background: image_url("lightning-bolt-disabled.png") no-repeat white 5px 4px
+        color: #bbb
+        
+
     a
       background: white
       display: inline-block
-      padding: 5px 5px 3px
+      padding: 6px 6px 4px
       &:hover
         text-decoration: none
   input, textarea
