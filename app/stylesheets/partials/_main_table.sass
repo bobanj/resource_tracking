@@ -49,6 +49,7 @@ body.app #content .wrapper #main #resources
     
   #main_table
     border-right: 1px solid $lightest-blue
+    line-height: 0.9em
     width: 100%
     
     thead 
@@ -56,8 +57,10 @@ body.app #content .wrapper #main #resources
       th, td
         color: white
         font-size: 0.7em
-        &:hover
+        &:hover, &.ascending, &.descending
           background: !dark-blue
+          
+      
       td
         background: !mid-blue
         border-left: 1px solid !dark-blue
@@ -66,7 +69,7 @@ body.app #content .wrapper #main #resources
         color: white
         display: inline-block
         font-size: 1em
-        padding: 5px 10px
+        padding: 8px 10px
         width: 100%
         
     td
