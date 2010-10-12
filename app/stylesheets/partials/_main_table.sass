@@ -1,33 +1,24 @@
 /* new styles for the formtastic tables */
 body.app #content .wrapper #main #resources
-  .close
-    background: url("../../../images/active_scaffold/default/close.gif")
-    float: right
-    height: 17px
-    text-indent: -4000px
-    width: 16px
-
-  .disabled
-    cursor: default
-  
+  +pie-clearfix
   .actions
     +horizontal-list
     border: 1px solid #ddd
     float: right
     font-size: 0.85em
     margin: -26px 6px 0 0
-    +border-radius(4px)
+    +border-radius(3px)
     li
       color: $mid-blue
       &:first-child
         padding: 0
         a
-          +border-left-radius(4px)
+          +border-left-radius(3px)
           margin-right: 1px
       &:last-child
         padding: 0
         a
-          +border-right-radius(4px)
+          +border-right-radius(3px)
       
     .new_btn
       background: image_url("lightning-bolt.png") no-repeat white 5px 4px
@@ -36,6 +27,14 @@ body.app #content .wrapper #main #resources
       &:hover
         background: image_url("lightning-bolt-hover.png") no-repeat 5px 4px $mid-blue
         color: white
+      &.disabled
+        background: image_url("lightning-bolt-disabled.png") no-repeat white 5px 4px
+        color: #bbb
+        cursor: default
+        &:hover
+          background: image_url("lightning-bolt-disabled.png") no-repeat white 5px 4px
+          color: #bbb
+        
     .search_btn
       background: image_url("magnifying-glass.png") no-repeat white 5px 4px
       color: $mid-blue
@@ -43,14 +42,13 @@ body.app #content .wrapper #main #resources
       &:hover
         background: image_url("magnifying-glass-hover.png") no-repeat 5px 4px $mid-blue
         color: white
-
-    .disabled
-      background: image_url("lightning-bolt-disabled.png") no-repeat white 5px 4px
-      color: #bbb
-      &:hover
-        background: image_url("lightning-bolt-disabled.png") no-repeat white 5px 4px
+      &.disabled
+        background: image_url("magnifying-glass-disabled.png") no-repeat white 5px 4px
         color: #bbb
-        
+        cursor: default
+        &:hover
+          background: image_url("magnifying-glass-disabled.png") no-repeat white 5px 4px
+          color: #bbb
 
     a
       background: white
@@ -62,7 +60,7 @@ body.app #content .wrapper #main #resources
     border: 1px solid !light-blue
     padding: 5px
     width: 400px
-    +border-radius
+    +border-radius(3px)
     &:hover, &:active, &:focus
       +box-shadow(#ccc, 0, 0, 5px)
   
@@ -70,13 +68,18 @@ body.app #content .wrapper #main #resources
     height: 200px
     
   input[type="submit"]
+    border: none
+    font-size: 0.8em
+    font-weight: bold
+    padding: 6px 6px 5px
     width: auto
     
   #main_table
     border-right: 1px solid $lightest-blue
     line-height: 0.9em
+    margin-bottom: 15px
     width: 100%
-    
+
     thead 
     
       th, td
@@ -85,11 +88,14 @@ body.app #content .wrapper #main #resources
         &:hover, &.ascending, &.descending
           background: !dark-blue
           
-      
+      #manage
+        padding-left: 10px
+        
       td
         background: !mid-blue
         border-left: 1px solid !dark-blue
         padding-left: 10px
+        
       a
         color: white
         display: inline-block
@@ -113,29 +119,59 @@ body.app #content .wrapper #main #resources
           background: $lightest-blue + #0a0a0a
         &.even
           background: $lightest-blue + #0fffff
+        &.edit_row td
+          width: 100%
           
   #placer
     background: $lightest-blue + #0fffff
     border: 1px solid $lightest-blue
+    
     label
       color: $mid-blue
       font-size: 0.8em
       padding-left: 40px
       vertical-align: center
+      width: 205px
+      
     legend
       color: $mid-blue
+      font-size: 1.4em
       font-weight: bold
       padding-bottom: 20px
       padding-left: 40px
-      text-transform: uppercase
       
     .form_box
+      border-bottom: 5px solid $lightest-blue
       padding: 30px 0
       position: relative
+      
       .close
+        background: url("../../../images/active_scaffold/default/close.gif")
+        float: right
+        height: 17px
         position: absolute
-        right: 60px
-        top: 60px
+        right: 30px
+        text-indent: -4000px
+        top: 30px
+        width: 16px
+        
+    .search_form label
+      font-size: 1.4em
+      font-weight: bold
+      
+    .reset_btn
+      color: $mid-blue
+      display: inline-block
+      font-size: 0.7em
+      padding: 9px
+
+    .new_form .buttons
+
+      .cancel_btn
+        color: $mid-blue
+        display: inline-block
+        font-size: 0.7em
+        padding: 9px
       
     .check_boxes
       legend, label
@@ -159,3 +195,8 @@ body.app #content .wrapper #main #resources
       .cancel_btn
         display: inline-block
         padding: 10px 0 0 10px
+        
+  #total
+    float: left
+    font-size: 0.8em
+    margin-left: 10px

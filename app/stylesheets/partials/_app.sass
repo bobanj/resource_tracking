@@ -45,9 +45,9 @@ body.app
       li
         display: block
         &:first-child a
-          +border-top-left-radius
+          +border-top-left-radius(3px)
         &:last-child a
-          +border-top-right-radius
+          +border-top-right-radius(3px)
         a
           background: !light-blue
           color: !mid-blue
@@ -83,9 +83,9 @@ body.app
   /* adding properties to the shared admin style */
   #admin ul li
     &:first-child a
-      +border-bottom-left-radius
+      +border-bottom-left-radius(3px)
     &:last-child a
-      +border-bottom-right-radius
+      +border-bottom-right-radius(3px)
   /* end */
 
   /* sub-nav styles */
@@ -100,7 +100,7 @@ body.app
         background: !orange
         color: white
     a
-      +border-radius
+      +border-radius(3px)
       background: !lightest-blue
       color: !mid-blue
       display: inline-block
@@ -135,7 +135,7 @@ body.app
         float: left
 
       a
-        +border-radius
+        +border-radius(3px)
         color= !mid-blue
         margin-left: 5px
         padding: 5px 7px
@@ -173,19 +173,21 @@ body.app
         padding: 10px 0 0 10px
 
       .next, input[type=submit]
-        +border-radius
+        +border-radius(3px)
+        background: image_url("arrow-right.png") no-repeat $orange 90px 8px
         border: 1px
-        background= !orange
         color: white
         cursor: pointer
-        margin-right: -10px
-        padding: 9px 15px 7px 15px
+        overflow: hidden
+        padding: 9px 25px 6px 15px
+        position: relative
         text-decoration: none
         text-transform: uppercase
         &:hover
-          background= !mid-blue
+          background: image_url("arrow-right.png") no-repeat $mid-blue 90px 8px
           color: white
           text-decoration: none
+          bottom: -2px
         &.big
           clear: both
           display: inline-block
@@ -193,9 +195,6 @@ body.app
           margin: 10px 0 10px 10px
           padding: 13px 20px 10px 20px
           overflow: hidden
-
-      .next
-        margin-top: -5px
 
       .nav2 a
         font-size: 1em
@@ -227,7 +226,7 @@ body.app
       border: none
 
     #desc, #helper, #c-help
-      +border-radius
+      +border-radius(3px)
       border: #eee 1px solid
       padding-bottom: 15px
       margin-bottom: 10px
@@ -320,7 +319,7 @@ body.app
       padding: 10px
 
     h2
-      +border-top-radius
+      +border-top-radius(3px)
       background= !lightest-blue
       color= !mid-blue
       font-size: 0.8em
@@ -340,7 +339,7 @@ body.app
 
   #guide
     h2
-      +border-radius
+      +border-radius(3px)
       margin: 10px 0
     h3, h5
       font-weight: bold

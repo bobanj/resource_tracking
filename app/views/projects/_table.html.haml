@@ -7,7 +7,7 @@
       = sortable_table_header :name => "Description",  :sort => "description"
       = sortable_table_header :name => "Total Budget GOR FY 10-11",  :sort => "budget"
       = sortable_table_header :name => "Total Spend GOR FY 09-10",  :sort => "spend"
-      %th Manage
+      %th#manage Manage
   / js event: table#main_table tbody
   %tbody
     = render :partial => 'row', :collection => projects, :as => :project
