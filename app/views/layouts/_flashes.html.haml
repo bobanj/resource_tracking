@@ -1,5 +1,4 @@
-- unless flash.empty?
-  #flashes
-    - flash.each do |key, value|
-      %div{:id => key.to_s}
-        = h value
+#flashes
+  - flash.each do |key, value|
+    %div{:id => key.to_s}
+      = h value

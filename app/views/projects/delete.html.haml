@@ -1,0 +1,9 @@
+- title("Delete project")
+
+%h1 Delete project
+
+Are you sure you want to delete project
+%b= @project.name
+?
+
+= button_to 'Delete', @project, :method => :delete

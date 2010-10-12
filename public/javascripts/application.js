@@ -1,6 +1,35 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
+
+// TODO: rename jQuery -> $ after AS and Prototype are removed
 jQuery.noConflict();
+
+// Global Ajax handler
+//jQuery(document).ajaxSuccess(function(event, request) {
+  //var error = request.getResponseHeader('X-Message-Error');
+  //if (error) {
+    //addFlash(error, 'error');
+  //}
+
+  //var notice = request.getResponseHeader('X-Message-Notice');
+  //if (notice) {
+    //addFlash(notice, 'notice');
+    //removeFlash('notice');
+  //}
+//});
+
+//var addFlash = function (msg, type) {
+  //jQuery("#flashes").html('').append(
+    //jQuery('<div/>').attr({id: type}).html(msg)
+  //);
+//}
+
+var removeFlash = function (type) {
+  jQuery('#' + type).fadeOut(3000, function () {
+    jQuery(this).remove();
+  });
+}
+
 
 var get_row_id = function (element) {
   return element.parents('tr').attr('id');
@@ -23,11 +52,12 @@ var add_new_form = function (data) {
 };
 
 var add_edit_form = function (row_id, data) {
-  jQuery('#' + row_id).html('<td>' + data + '</td>').addClass("edit_row");
+  jQuery('#' + row_id).html('<th colspan="100">' + data + '</th>').addClass("edit_row");
 };
 
 var add_new_row = function (data) {
   jQuery('table#main_table tbody').prepend(data);
+  enable_element(jQuery(".new_btn"));
 };
 
 var add_existing_row = function (row_id, data) {
@@ -114,7 +144,7 @@ var update_resource = function (element) {
   var form = get_form(element);
   jQuery.post(resource_name + '/' + resource_id + '.js', form.serialize(), function (data, status, response) {
     close_form(element);
-    response.status === 206 ? add_edit_form(row_id, data) : add_existing_row(row_id, data); // 206 - partial content
+    response.status === 206 ? add_edit_form(row_id, data) : add_existing_row(row_id, data);
   });
 };
 
@@ -123,7 +153,7 @@ var create_resource = function (element) {
   var form = get_form(element);
   jQuery.post(resource_name + '.js', form.serialize(), function (data, status, response) {
     close_form(element);
-    response.status === 206 ? add_new_form(data) : add_new_row(data); // 206 - partial content
+    response.status === 206 ? add_new_form(data) : add_new_row(data);
   });
 };
 
@@ -306,9 +336,6 @@ var code_assignments_show = {
       jQuery('#activity_classification > div.' + jQuery(this).attr("id")).show();
     });
 
-    // remove flash notice
-    jQuery("#notice").fadeOut(3000);
-
     jQuery("#use_budget_codings_for_spend").click(function () {
       jQuery.post( "/activities/" + _activity_id + "/use_budget_codings_for_spend",
        { checked: jQuery(this).is(':checked'), "_method": "put" }
@@ -356,7 +383,6 @@ jQuery(function () {
     jQuery("#page_tips_open_link").effect("highlight", {}, 1500);
   });
 
-
   // Date picker
   jQuery('.date_picker').live('click', function () {
     jQuery(this).datepicker('destroy').datepicker({
@@ -366,6 +392,9 @@ jQuery(function () {
       dateFormat: 'yy-mm-dd'
     }).focus();
   });
+
+  // remove flash notice
+  removeFlash('notice');
 
   // Collapse / expand form fieldsets
   jQuery("legend").live('click', function (e) {
