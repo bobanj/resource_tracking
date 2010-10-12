@@ -60,8 +60,8 @@ class ProjectsController < ApplicationController
 
   def create
     create! do |success, failure|
-      success.html { redirect_to resources_url }
-      failure.html { render :action => "edit" }
+      success.html { redirect_to projects_url }
+      failure.html { render :action => "new" }
       success.js   { render :partial => "row",  :locals => {:project => resource} }
       failure.js   { render :partial => "form", :locals => {:project => resource}, :status => :partial_content } # :partial_content => 206
     end
@@ -69,7 +69,7 @@ class ProjectsController < ApplicationController
 
   def update
     update! do |success, failure|
-      success.html { redirect_to resources_url }
+      success.html { redirect_to projects_url }
       failure.html { render :action => "edit" }
       success.js   { render :partial => "row",  :locals => {:project => resource} }
       failure.js   { render :partial => "form", :locals => {:project => resource}, :status => :partial_content } # :partial_content => 206
@@ -80,7 +80,7 @@ class ProjectsController < ApplicationController
 
   def destroy
     destroy! do |success|
-      success.html { redirect_to resources_url }
+      success.html { redirect_to projects_url }
       success.js   { render :nothing => true }
     end
   end

@@ -40,6 +40,14 @@ class Project < ActiveRecord::Base
 
   # Named scopes
   named_scope :matching, lambda {|value| value.blank? ? {} : {:conditions => ["projects.name LIKE :value OR projects.currency LIKE :value OR projects.description LIKE :value", {:value => "%#{value}%"}]} }
+  # TODO: remove this after AS is removed!
+  named_scope :available_to, lambda { |current_user|
+    if current_user.role?(:admin)
+      {}
+    else
+      {:conditions=>{:data_response_id => current_user.current_data_response.try(:id)}}
+    end
+  }
 
   # Validations
   validates_presence_of :name, :data_response_id
