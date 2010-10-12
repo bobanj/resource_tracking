@@ -17,7 +17,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js { render :partial => 'row', :collection => @projects, :as => :project }
+      format.js { render :partial => 'table', :locals => {:projects => @projects} }
     end
   end
 
