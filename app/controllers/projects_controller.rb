@@ -85,6 +85,9 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def delete
+    @project = Project.find(params[:id])
+  end
 
   protected
   def begin_of_association_chain

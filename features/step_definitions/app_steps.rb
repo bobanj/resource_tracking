@@ -289,3 +289,7 @@ Given /^location "([^"]*)" for activity "([^"]*)"$/ do |location_name, activity_
   location = Location.find_by_short_display(location_name)
   activity.locations << location
 end
+
+When /^I will confirm a js popup$/ do
+  page.evaluate_script('window.confirm = function() { return true; }')
+end
