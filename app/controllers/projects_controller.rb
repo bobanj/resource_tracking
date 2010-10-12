@@ -4,7 +4,11 @@ class ProjectsController < ApplicationController
   sortable_attributes :name, :description, :budget, :spend, :organization => "organizations.name"
 
   authorize_resource
-  before_filter :check_user_has_data_response, :load_model_help
+  before_filter :check_user_has_data_response
+  #before_filter :load_model_help
+  before_filter do |controller|
+    controller.send(:load_model_help) if controller.request.format.html?
+  end
 
   # Inherited Resources
   inherit_resources
@@ -13,7 +17,7 @@ class ProjectsController < ApplicationController
   respond_to :html, :js, :json
 
   def index
-    @projects = current_user.current_data_response.projects.matching(params[:q]).find(:all, :order => sort_order(:default => 'ascending'), :joins => {:data_response => :responding_organization})
+    @projects = current_user.current_data_response.projects.matching(params[:q]).find(:all, :order => sort_order(:default => 'ascending'), :include => {:data_response => :responding_organization})
 
     respond_to do |format|
       format.html
