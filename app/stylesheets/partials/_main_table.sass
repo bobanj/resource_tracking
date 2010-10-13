@@ -1,6 +1,8 @@
 /* new styles for the formtastic tables */
 body.app #content .wrapper #main #resources
   +pie-clearfix
+  
+  /* Action buttons */
   .actions
     +horizontal-list
     border: 1px solid #ddd
@@ -56,6 +58,10 @@ body.app #content .wrapper #main #resources
       padding: 6px 6px 4px
       &:hover
         text-decoration: none
+        
+  
+  /* Form elements */
+  
   input, textarea
     border: 1px solid !light-blue
     padding: 5px
@@ -71,22 +77,39 @@ body.app #content .wrapper #main #resources
     border: none
     font-size: 0.8em
     font-weight: bold
-    padding: 6px 6px 5px
+    padding: 6px 20px 5px 6px
     width: auto
+    
+  input[type="checkbox"]
+    width: auto
+    
+  /* Table styles */
     
   #main_table
     border-right: 1px solid $lightest-blue
     line-height: 0.9em
     margin-bottom: 15px
     width: 100%
-
-    thead 
     
+    .edit_row > th
+      font-size: 1em
+      padding: 0
+
+    thead
+      font-weight: bold
+      
       th, td
         color: white
         font-size: 0.7em
-        &:hover, &.ascending, &.descending
+        font-weight: bold
+        &:hover
           background: !dark-blue
+        &.ascending
+          background: image_url("arrow-asc.png") no-repeat center right $dark-blue
+        &.descending
+          background: image_url("arrow-dsc.png") no-repeat center right $dark-blue
+      th
+        border-left: 1px solid $mid-blue + #111
           
       #manage
         padding-left: 10px
@@ -126,77 +149,90 @@ body.app #content .wrapper #main #resources
     background: $lightest-blue + #0fffff
     border: 1px solid $lightest-blue
     
-    label
-      color: $mid-blue
-      font-size: 0.8em
-      padding-left: 40px
-      vertical-align: center
-      width: 205px
+  label
+    color: $mid-blue
+    font-size: 0.8em
+    padding-left: 40px
+    vertical-align: center
+    width: 205px
+    
+  legend
+    color: $mid-blue
+    font-size: 1.4em
+    font-weight: bold
+    padding-bottom: 20px
+    padding-left: 40px
+    
+  .form_box
+    border-bottom: 5px solid $lightest-blue
+    padding: 30px 0 0
+    position: relative
+    
+    ol > .inputs
+      border-bottom: 1px dashed $lightest-blue
+      margin-bottom: 30px
+      padding-bottom: 10px
+    
+    .close
+      background: url("../../../images/active_scaffold/default/close.gif")
+      float: right
+      height: 17px
+      position: absolute
+      right: 30px
+      text-indent: -4000px
+      top: 30px
+      width: 16px
       
-    legend
-      color: $mid-blue
-      font-size: 1.4em
-      font-weight: bold
-      padding-bottom: 20px
-      padding-left: 40px
-      
-    .form_box
-      border-bottom: 5px solid $lightest-blue
-      padding: 30px 0
-      position: relative
-      
-      .close
-        background: url("../../../images/active_scaffold/default/close.gif")
-        float: right
-        height: 17px
-        position: absolute
-        right: 30px
-        text-indent: -4000px
-        top: 30px
-        width: 16px
-        
-    .search_form label
-      font-size: 1.4em
-      font-weight: bold
-      
-    .reset_btn
+  .search_form label
+    font-size: 1.4em
+    font-weight: bold
+    
+  .reset_btn
+    color: $mid-blue
+    display: inline-block
+    font-size: 0.7em
+    padding: 9px
+
+  .new_form .buttons
+
+    .cancel_btn
       color: $mid-blue
       display: inline-block
       font-size: 0.7em
       padding: 9px
-
-    .new_form .buttons
-
-      .cancel_btn
-        color: $mid-blue
-        display: inline-block
-        font-size: 0.7em
-        padding: 9px
+    
+  .buttons
+    padding-left: 245px
+    
+    .cancel_btn
+      display: inline-block
+      padding: 10px 0 0 10px
       
-    .check_boxes
-      legend, label
-        padding-left: 20px
-      input
-        width: auto
-      ol
-        padding-left: 225px
-        li
-          float: left
-          width: 160px
-          
-    #basic, #planned_expenditure
-      border-bottom: 1px dashed $lightest-blue
-      margin-bottom: 40px
-      padding-bottom: 15px
-      
-    .buttons
-      padding-left: 240px
-      
-      .cancel_btn
-        display: inline-block
-        padding: 10px 0 0 10px
+  .check_boxes
+    legend, label
+      padding-left: 20px
+    input
+      width: auto
+    ol
+      padding-left: 225px
+      li
+        float: left
+        width: 160px
         
   #total
     float: left
     font-size: 0.8em
     margin-left: 10px
+    
+  .error
+    background: #fff6f4
+    border-top: 1px solid #ffeeee
+    border-bottom: 1px solid #ffeeee
+    padding-top: 10px
+    .inline-errors
+      color: #b64848
+      margin-left: 235px
+      margin-top: 0
+      width: 392px
+    input[type="text"]
+      border: 1px solid #e8b3b3
