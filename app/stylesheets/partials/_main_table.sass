@@ -1,5 +1,5 @@
 /* new styles for the formtastic tables */
-body.app #content .wrapper #main #resources
+body.app #content #resources
   +pie-clearfix
   
   /* Action buttons */
@@ -144,10 +144,11 @@ body.app #content .wrapper #main #resources
           background: $lightest-blue + #0fffff
         &.edit_row td
           width: 100%
-          
-  #placer
-    background: $lightest-blue + #0fffff
-    border: 1px solid $lightest-blue
+
+  h1
+    background: $lightest-blue
+    color: $mid-blue
+    padding: 10px
     
   label
     color: $mid-blue
@@ -164,6 +165,8 @@ body.app #content .wrapper #main #resources
     padding-left: 40px
     
   .form_box
+    background: $lightest-blue + #0fffff
+    border: 1px solid $lightest-blue
     border-bottom: 5px solid $lightest-blue
     padding: 30px 0 0
     position: relative
