@@ -1,26 +1,25 @@
-
 #sub-nav
   %ul
-    %li{ :class => (controller.controller_name == "data_responses" && controller.action_name != "review" ? "active" : '')}
+    %li{ :class => (controller.controller_name == "data_responses" && controller.action_name != "review" ? "active" : '') }
       = link_to 'Configure', start_data_response_path(current_user.current_data_response)
 
-    %li{ :class => [controller.class.to_s == "ProjectsController" ? "active" : '']}
+    %li{ :class => (controller.controller_name == "projects" ? "active" : '') }
       = link_to 'Projects', projects_path
 
-    %li{ :class => [controller.class.to_s == "FundingSourcesController" ? "active" : '']}
-      = link_to 'Funding Sources', funding_sources_data_entry_path
+    %li{ :class => (controller.controller_name == "funding_sources" ? "active" : '') }
+      = link_to 'Funding Sources', funding_sources_path
 
-    %li{ :class => [controller.class.to_s == "ProvidersController" ? "active" : '']}
-      = link_to 'Implementers', providers_data_entry_path
+    %li{ :class => (controller.controller_name == "implementers" ? "active" : '') }
+      = link_to 'Implementers', implementers_path
 
-    %li{ :class => [controller.class.to_s == "ActivitiesController" ? "active" : '']}
+    %li{ :class => (controller.controller_name == "activities" ? "active" : '') }
       = link_to 'Activities', activities_path
 
-    %li{ :class => [ ["ClassificationsController", "CodeAssignmentsController"].include?(controller.class.to_s) ? "active" : '']}
+    %li{ :class => (["classifications", "code_assignments"].include?(controller.controller_name) ? "active" : '') }
       = link_to 'Classifications', classifications_path
 
-    %li{ :class => [controller.class.to_s =="OtherCostsController" ? "active" : '']}
+    %li{ :class => (controller.controller_name == "other_costs" ? "active" : '') }
       = link_to 'Other Costs', other_costs_path
 
-    %li{ :class => (controller.controller_name == "data_responses" && controller.action_name == "review" ? "active" : '')}
+    %li{ :class => (controller.controller_name == "data_responses" && controller.action_name == "review" ? "active" : '') }
       = link_to 'Review & Submit', review_data_response_path(current_user.current_data_response)

@@ -39,7 +39,7 @@ class Project < ActiveRecord::Base
   belongs_to :data_response
 
   # Named scopes
-  named_scope :matching, lambda {|value| value.blank? ? {} : {:conditions => ["projects.name LIKE :value OR projects.currency LIKE :value OR projects.description LIKE :value", {:value => "%#{value}%"}]} }
+  named_scope :matching, lambda {|value| value.blank? ? {} : {:conditions => ["projects.name LIKE :value OR projects.currency LIKE :value OR projects.description LIKE :value OR projects.budget LIKE :value OR projects.spend LIKE :value OR organizations.name LIKE :value", {:value => "%#{value}%"}], :joins => {:data_response => :responding_organization}} }
   # TODO: remove this after AS is removed!
   named_scope :available_to, lambda { |current_user|
     if current_user.role?(:admin)

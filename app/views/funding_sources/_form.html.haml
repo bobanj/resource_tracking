@@ -1,0 +1,24 @@
+/ js event: .form_box, .new_form, .edit_form
+%div{:class => "form_box #{(funding_source.new_record? ? 'new_form' : 'edit_form')}"}
+  / js event: .cancel_btn
+  = link_to "Close", funding_sources_path, :class => "cancel_btn close"
+  - semantic_form_for funding_source, :url => (funding_source.new_record? ? funding_sources_path :  funding_source_path(funding_source)), :html => {:multipart => true} do |f|
+    = f.semantic_errors :state
+    - f.inputs do
+      - f.inputs "Basic", :id => "basic" do
+        = f.input :project, :label => 'Project', :collection => Project.find(:all, :select => "id, name", :order => "name ASC")
+        = f.input :from, :label => 'From', :required => false, :collection => Organization.find(:all, :select => "id, name", :order => "name ASC")
+      - f.inputs "Planned Expenditure", :id => "planned_expenditure" do
+        = f.input :budget, :label => 'Total Budget GOR FY 10-11', :required => false
+      - f.inputs "Past Expenditure", :id => "past_expenditure" do
+        = f.input :spend, :label => 'Total Spend GOR FY 09-10', :required => false
+        = f.input :spend_q4_prev, :label => 'Spend in your FY 08-09 Q4', :required => false
+        = f.input :spend_q1, :label => 'Spend in Your FY 09-10 Q1', :required => false
+        = f.input :spend_q2, :label => 'Spend in Your FY 09-10 Q2', :required => false
+        = f.input :spend_q3, :label => 'Spend in Your FY 09-10 Q3', :required => false
+        = f.input :spend_q4, :label => 'Spend in Your FY 09-10 Q4', :required => false
+      - f.buttons do
+        / js event: .cancel_btn
+        = link_to "Cancel", funding_sources_path, :class => "cancel_btn"
+        / js event: .submit_btn
+        = f.commit_button :label => (funding_source.new_record? ? "Create funding source" : "Update funding source"), :button_html => { :class => "submit_btn" }

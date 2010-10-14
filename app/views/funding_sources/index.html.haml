@@ -1,0 +1,26 @@
+- title "Funding Sources"
+
+= render :partial => 'layouts/contents/sub_nav'
+= render :partial => 'layouts/contents/page_help'
+= render :partial => 'layouts/contents/side_bar'
+= render :partial => 'layouts/contents/comments'
+
+/ js event: #resources, .funding_sources
+#resources.funding_sources
+
+  %h2 Funding Sources
+  %ul.actions
+    / js event: .new_btn, .enabled
+    %li= link_to "Create new", new_funding_source_path, :class => "new_btn enabled"
+    / js event: .search_btn, .enabled
+    %li= link_to "Search", search_funding_sources_path, :class => "search_btn enabled"
+
+  / js event: #placer
+  #placer
+
+  = render 'table', :funding_sources => @funding_sources
+
+  #total
+    = "#{@funding_sources.count} Found"
+
+  = link_to "Next step", implementers_path, :class => "next right"

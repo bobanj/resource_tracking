@@ -1,3 +1,5 @@
+- title "Projects"
+
 = render :partial => 'layouts/contents/sub_nav'
 = render :partial => 'layouts/contents/page_help'
 = render :partial => 'layouts/contents/side_bar'
@@ -21,4 +23,4 @@
   #total
     = "#{@projects.count} Found"
 
-  = link_to "Next step", funding_sources_data_entry_path, :class => "next right"
+  = link_to "Next step", funding_sources_path, :class => "next right"

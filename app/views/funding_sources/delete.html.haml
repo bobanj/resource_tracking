@@ -1,0 +1,11 @@
+- title("Delete funding source")
+
+%h1 Delete funding source
+
+Are you sure you want to delete funding source on project
+%b= @funding_source.project.try(:name)
+from organization
+%b= @funding_source.from.try(:name)
+?
+
+= button_to 'Delete', funding_source_path(@funding_source), :method => :delete

@@ -27,9 +27,8 @@ class DataResponse < ActiveRecord::Base
   include ActsAsDateChecker
 
   # Associations
-
-  has_many :activities, :dependent=>:destroy
-  has_many :funding_flows, :dependent=>:destroy
+  has_many :activities, :dependent => :destroy
+  has_many :funding_flows, :dependent => :destroy
   has_many :projects, :dependent=>:destroy
 
   has_many    :users_currently_completing,
@@ -45,7 +44,6 @@ class DataResponse < ActiveRecord::Base
   # Validations
   validates_presence_of :data_request_id
   validates_presence_of :organization_id_responder
-
   validates_date :fiscal_year_start_date, :on => :update
   validates_date :fiscal_year_end_date, :on => :update
   validates_dates_order :fiscal_year_start_date, :fiscal_year_end_date, :message => "Start date must come before End date.", :on => :update

@@ -3,14 +3,6 @@ Feature: In order to reduce costs
   I want to be able to manage my projects
 
 @projects
-Scenario: Browse to projects page
-  Given a basic org + reporter profile, with data response, signed in
-  When I follow "My Data"
-  And I follow "Projects"
-  Then I should be on the projects page for "Req1"
-  And I should see "Projects" within "div#main"
-
-@projects
 Scenario: Project CRUD
   Given a basic org + reporter profile, with data response, signed in
   When I go to the projects page for "Req1"
@@ -24,9 +16,11 @@ Scenario: Project CRUD
   When I follow "Edit"
   And I fill in "project_name" with "My new project"
   And I press "Update"
+  Then I should see "Project was successfully updated"
   Then I should see "My new project"
   When I follow "Delete"
   And I press "Delete"
+  Then I should see "Project was successfully deleted"
   Then I should not see "My new project"
 
 

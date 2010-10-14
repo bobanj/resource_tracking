@@ -2,9 +2,9 @@
   %th= project.try(:organization)
   %th{:class => "rest_in_place", :"data-attribute" => "name" }= project.name
   %th{:class => "rest_in_place", :"data-attribute" => "description" }= project.description
-  %th= project.budget
-  %th= project.spend
+  %th= number_to_currency(project.budget, :unit => '', :separator => ".", :delimiter => ",")
+  %th= number_to_currency(project.spend, :unit => '', :separator => ".", :delimiter => ",")
   %td
-    / js event
+    / js event .edit_btn, .destroy_btn
     = link_to "Edit", edit_project_path(project), :class => "edit_btn"
     = link_to "Delete", delete_project_path(project), :class => "destroy_btn"
