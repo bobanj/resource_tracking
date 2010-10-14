@@ -1,6 +1,7 @@
 /* new styles for the formtastic tables */
-body.app #content #resources
-  +pie-clearfix
+body.app #content
+  #resources
+    +pie-clearfix
   
   /* Action buttons */
   .actions
@@ -8,7 +9,7 @@ body.app #content #resources
     border: 1px solid #ddd
     float: right
     font-size: 0.85em
-    margin: -26px 6px 0 0
+    margin: -27px 5px 4px 0
     +border-radius(3px)
     li
       color: $mid-blue
@@ -17,6 +18,8 @@ body.app #content #resources
         a
           +border-left-radius(3px)
           margin-right: 1px
+          &:hover
+            text-decoration: none
       &:last-child
         padding: 0
         a
@@ -59,29 +62,6 @@ body.app #content #resources
       &:hover
         text-decoration: none
         
-  
-  /* Form elements */
-  
-  input, textarea
-    border: 1px solid !light-blue
-    padding: 5px
-    width: 400px
-    +border-radius(3px)
-    &:hover, &:active, &:focus
-      +box-shadow(#ccc, 0, 0, 5px)
-  
-  textarea
-    height: 200px
-    
-  input[type="submit"]
-    border: none
-    font-size: 0.8em
-    font-weight: bold
-    padding: 6px 20px 5px 6px
-    width: auto
-    
-  input[type="checkbox"]
-    width: auto
     
   /* Table styles */
     
@@ -98,9 +78,10 @@ body.app #content #resources
     thead
       font-weight: bold
       
-      th, td
+      tr th
+        border-left: 1px solid red
         color: white
-        font-size: 0.7em
+        font-size: 0.9em
         font-weight: bold
         &:hover
           background: !dark-blue
@@ -108,23 +89,25 @@ body.app #content #resources
           background: image_url("arrow-asc.png") no-repeat center right $dark-blue
         &.descending
           background: image_url("arrow-dsc.png") no-repeat center right $dark-blue
-      th
-        border-left: 1px solid $mid-blue + #111
           
       #manage
+        font-size: 0.75em
         padding-left: 10px
         
       td
         background: !mid-blue
-        border-left: 1px solid !dark-blue
+        color: $orange
         padding-left: 10px
         
       a
         color: white
         display: inline-block
         font-size: 1em
-        padding: 8px 10px
+        padding: 8px 0 8px 10px
         width: 100%
+        &:hover
+          //  color: white
+          text-decoration: underline
         
     td
       font-size: 0.8em
@@ -145,6 +128,8 @@ body.app #content #resources
         &.edit_row td
           width: 100%
 
+      a
+        color: $orange
   h1
     background: $lightest-blue
     color: $mid-blue
@@ -164,37 +149,6 @@ body.app #content #resources
     padding-bottom: 20px
     padding-left: 40px
     
-  .form_box
-    background: $lightest-blue + #0fffff
-    border: 1px solid $lightest-blue
-    border-bottom: 5px solid $lightest-blue
-    padding: 30px 0 0
-    position: relative
-    
-    ol > .inputs
-      border-bottom: 1px dashed $lightest-blue
-      margin-bottom: 30px
-      padding-bottom: 10px
-    
-    .close
-      background: url("../../../images/active_scaffold/default/close.gif")
-      float: right
-      height: 17px
-      position: absolute
-      right: 30px
-      text-indent: -4000px
-      top: 30px
-      width: 16px
-      
-  .search_form label
-    font-size: 1.4em
-    font-weight: bold
-    
-  .reset_btn
-    color: $mid-blue
-    display: inline-block
-    font-size: 0.7em
-    padding: 9px
 
   .new_form .buttons
 
@@ -239,3 +193,75 @@ body.app #content #resources
       width: 392px
     input[type="text"]
       border: 1px solid #e8b3b3
+      
+  .form_box, .search_form
+    background: $lightest-blue + #0fffff
+    border: 1px solid $lightest-blue
+    border-bottom: 5px solid $lightest-blue
+    padding: 30px 0 0
+    position: relative
+    
+    ol > .inputs
+      border-bottom: 1px dashed $lightest-blue
+      margin-bottom: 30px
+      padding-bottom: 10px
+    
+    .close
+      background: url("../../../images/active_scaffold/default/close.gif")
+      float: right
+      height: 17px
+      position: absolute
+      right: 30px
+      text-indent: -4000px
+      top: 30px
+      width: 16px
+      
+  .search_form
+    label
+      font-size: 1.4em
+      font-weight: bold
+    
+  .reset_btn
+    color: $mid-blue
+    display: inline-block
+    font-size: 0.7em
+    padding: 9px
+
+  /* Form elements */
+
+  input, textarea, select
+    border: 1px solid !light-blue
+    padding: 5px
+    width: 400px
+    +border-radius(3px)
+    &:hover, &:active, &:focus
+      +box-shadow(#ccc, 0, 0, 5px)
+    
+  select
+    font-size: 0.8em
+    height: 30px
+    width: 415px
+
+  textarea
+    height: 200px
+  
+  input[type="submit"]
+    border: none
+    font-size: 0.8em
+    font-weight: bold
+    padding: 6px 20px 5px 6px
+    width: auto
+  
+  input[type="checkbox"]
+    width: auto
+    
+body.app #content .wrapper .comments
+  thead tr
+    background: $mid-blue
+  .actions
+    border: none
+    a
+      background: none
+      padding: 5px
+  .record .actions
+    margin: 0
