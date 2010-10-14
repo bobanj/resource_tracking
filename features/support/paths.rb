@@ -12,7 +12,7 @@ module NavigationHelpers
       '/'
 
     when /the reporter dashboard page/
-      reporter_dashboard_path
+      dashboard_path
 
     when /the projects listing page/
       projects_path
@@ -46,8 +46,8 @@ module NavigationHelpers
       activity = Activity.find_by_name($1)
       activity_coding_path(activity)
 
-    when /the user guide page/
-      static_page_path(:user_guide)
+    when /the help page/
+      static_page_path(:help)
 
     when /the data response page for "(.+)"/
       req = DataRequest.find_by_title($1)

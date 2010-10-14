@@ -70,9 +70,8 @@ class Activity < ActiveRecord::Base
   # Named scopes
   named_scope :roots,     {:conditions => "activities.type IS NULL" }
   named_scope :with_type, lambda { |type| {:conditions => ["activities.type = ?", type]} }
+  named_scope :only_simple, :conditions => ["type is null or type in (?)", ["OtherCost"]]
   named_scope :matching, lambda {|value| value.blank? ? {} : {:conditions => ["organizations.name LIKE :value OR implementers_filter.name LIKE :value OR activities.name LIKE :value OR activities.description LIKE :value", {:value => "%#{value}%"}], :joins => "LEFT OUTER JOIN data_responses ON activities.data_response_id = data_responses.id LEFT OUTER JOIN organizations ON data_responses.organization_id_responder = organizations.id LEFT OUTER JOIN organizations as implementers_filter ON activities.provider_id = implementers_filter.id"}}
-
-  #named_scope :matching, lambda {|value| value.blank? ? {} : {:conditions => ["projects.name LIKE :value OR projects.currency LIKE :value OR projects.description LIKE :value OR projects.budget LIKE :value OR projects.spend LIKE :value OR organizations.name LIKE :value", {:value => "%#{value}%"}], :joins => {:data_response => :responding_organization}} }
   # TODO: remove this after AS is removed!
   named_scope :available_to, lambda { |current_user|
     if current_user.role?(:admin)
@@ -81,6 +80,10 @@ class Activity < ActiveRecord::Base
       {:conditions=>{:data_response_id => current_user.current_data_response.try(:id)}}
     end
   }
+
+  def self.unclassified
+    self.find(:all).select {|a| !a.classified}
+  end
 
   # delegate :providers, :to => :projects
   def valid_providers
@@ -133,6 +136,9 @@ class Activity < ActiveRecord::Base
     CodingBudgetDistrict.classified(self)
   end
 
+  # methods like this are used for reports
+  # so the logic for how to return when there is no data
+  # is put in the model, thus being shared
   def budget_district_coding
     val = code_assignments.with_type(CodingBudgetDistrict.to_s)
     if val.empty? && budget
@@ -148,7 +154,7 @@ class Activity < ActiveRecord::Base
       end
       assignments
     else
-      []
+      val
     end
   end
 
@@ -160,6 +166,8 @@ class Activity < ActiveRecord::Base
     code_assignments.with_type(CodingBudgetCostCategorization.to_s) 
   end
 
+  # these comment outs should be okay now that there
+  # is the before_save
   def spend?
     #if self.use_budget_codings_for_spend? && self.budget && self.budget!=0
       #budget?
@@ -195,7 +203,7 @@ class Activity < ActiveRecord::Base
       end
       assignments
     else
-      []
+      val
     end
   end
 

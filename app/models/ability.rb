@@ -28,7 +28,7 @@ class Ability
       can :read, ModelHelp
       can :read, FieldHelp
       can :create, HelpRequest
-      can :read, :users_in_my_organization
+      can :read, :reporters_reports
     else #guest user
       can :create, HelpRequest
     end
