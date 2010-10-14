@@ -1,0 +1,9 @@
+- title("Delete activity")
+
+%h1 Delete activity
+
+Are you sure you want to delete activity
+%b= @activity.name
+?
+
+= button_to 'Delete', @activity, :method => :delete

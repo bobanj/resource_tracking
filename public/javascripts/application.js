@@ -190,7 +190,7 @@ var get_form_type = function (element) {
   return element.parents('.form_box').attr('class').replace(/form_box /, '').split('_')[0];
 }
 
-var projects_index = funding_sources_index = implementers_index = {
+var projects_index = funding_sources_index = implementers_index = activities_index ={
   run: function () {
 
     // new
@@ -397,7 +397,7 @@ jQuery(function () {
   removeFlash('notice');
 
   // Collapse / expand form fieldsets
-  jQuery("legend").live('click', function (e) {
+  jQuery(".collapsible > legend").live('click', function (e) {
     $(this).next('ol').toggle();
   })
 

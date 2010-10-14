@@ -7,7 +7,8 @@
 #  beneficiary            :string(255)
 #  target                 :string(255)
 #  created_at             :datetime
-#  updated_at             :datetime #  provider_id            :integer
+#  updated_at             :datetime
+#  provider_id            :integer
 #  other_cost_type_id     :integer
 #  description            :text
 #  type                   :string(255)
@@ -29,14 +30,10 @@
 #  spend_percentage       :decimal(, )
 #
 
-require 'lib/ActAsDataElement'
-
 class Activity < ActiveRecord::Base
   VALID_ROOT_TYPES = %w[Mtef Nha Nasa Nsp]
 
   acts_as_commentable
-  include ActAsDataElement
-  configure_act_as_data_element
 
   # Attributes
   attr_accessible :projects, :locations, :text_for_provider,
@@ -44,7 +41,9 @@ class Activity < ActiveRecord::Base
                   :text_for_beneficiaries, :beneficiaries,
                   :text_for_targets, :spend, :spend_q4_prev,
                   :spend_q1, :spend_q2, :spend_q3, :spend_q4,
-                  :budget, :approved, :use_budget_codings_for_spend
+                  :budget, :approved, :use_budget_codings_for_spend,
+                  :provider_id, :location_ids, :project_ids, :beneficiary_ids
+  attr_accessible :data_response
 
   # Associations
   has_and_belongs_to_many :projects
@@ -55,6 +54,8 @@ class Activity < ActiveRecord::Base
   has_and_belongs_to_many :beneficiaries # codes representing who benefits from this activity
   has_many :sub_activities, :class_name => "SubActivity", :foreign_key => :activity_id
   has_many :code_assignments
+  belongs_to :data_response
+  has_one :owner, :through => :data_response, :source => :responding_organization
 
   # Validations
   validate :approved_activity_cannot_be_changed
@@ -69,6 +70,17 @@ class Activity < ActiveRecord::Base
   # Named scopes
   named_scope :roots,     {:conditions => "activities.type IS NULL" }
   named_scope :with_type, lambda { |type| {:conditions => ["activities.type = ?", type]} }
+  named_scope :matching, lambda {|value| value.blank? ? {} : {:conditions => ["organizations.name LIKE :value OR implementers_filter.name LIKE :value OR activities.name LIKE :value OR activities.description LIKE :value", {:value => "%#{value}%"}], :joins => "LEFT OUTER JOIN data_responses ON activities.data_response_id = data_responses.id LEFT OUTER JOIN organizations ON data_responses.organization_id_responder = organizations.id LEFT OUTER JOIN organizations as implementers_filter ON activities.provider_id = implementers_filter.id"}}
+
+  #named_scope :matching, lambda {|value| value.blank? ? {} : {:conditions => ["projects.name LIKE :value OR projects.currency LIKE :value OR projects.description LIKE :value OR projects.budget LIKE :value OR projects.spend LIKE :value OR organizations.name LIKE :value", {:value => "%#{value}%"}], :joins => {:data_response => :responding_organization}} }
+  # TODO: remove this after AS is removed!
+  named_scope :available_to, lambda { |current_user|
+    if current_user.role?(:admin)
+      {}
+    else
+      {:conditions=>{:data_response_id => current_user.current_data_response.try(:id)}}
+    end
+  }
 
   # delegate :providers, :to => :projects
   def valid_providers

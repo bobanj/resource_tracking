@@ -1,12 +1,12 @@
 / js event: .form_box, .search_form
 %div{:class => "form_box search_form"}
   / js event: .cancel_btn
-  = link_to "Close", projects_path, :class => "cancel_btn close"
-  - semantic_form_for :s, :url => projects_path, :html => {:method => :get} do |f|
+  = link_to "Close", url, :class => "cancel_btn close"
+  - semantic_form_for :s, :url => url, :html => {:method => :get} do |f|
     - f.inputs do
       = f.input :q, :label => 'Search', :input_html => {:value => params[:q], :name => :q}
       - f.buttons do
         / js event: .reset_btn
-        = link_to "Reset", projects_path, :class => "reset_btn"
+        = link_to "Reset", url, :class => "reset_btn"
         / js event: .submit_btn
         = f.commit_button "Search", :button_html => {:name => nil}, :button_html => { :class => "submit_btn" }

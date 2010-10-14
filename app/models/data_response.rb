@@ -19,17 +19,15 @@
 #  contact_office_location          :string(255)
 #
 
-require 'lib/ActAsDataElement'
 require 'validators'
-
 class DataResponse < ActiveRecord::Base
 
   include ActsAsDateChecker
 
   # Associations
-  has_many :activities, :dependent => :destroy
-  has_many :funding_flows, :dependent => :destroy
   has_many :projects, :dependent=>:destroy
+  has_many :funding_flows, :dependent => :destroy
+  has_many :activities, :dependent => :destroy
 
   has_many    :users_currently_completing,
               :class_name => "User",

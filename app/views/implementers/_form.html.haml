@@ -5,12 +5,12 @@
   - semantic_form_for implementer, :url => (implementer.new_record? ? implementers_path :  implementer_path(implementer)), :html => {:multipart => true} do |f|
     = f.semantic_errors :state
     - f.inputs do
-      - f.inputs "Basic", :id => "basic" do
+      - f.inputs "Basic", :id => "basic", :class => "collapsible" do
         = f.input :project, :label => 'Project', :collection => Project.find(:all, :select => "id, name", :order => "name ASC")
         = f.input :to, :label => 'To', :required => false, :collection => Organization.find(:all, :select => "id, name", :order => "name ASC")
-      - f.inputs "Planned Expenditure", :id => "planned_expenditure" do
+      - f.inputs "Planned Expenditure", :id => "planned_expenditure", :class => "collapsible" do
         = f.input :budget, :label => 'Total Budget GOR FY 10-11', :required => false
-      - f.inputs "Past Expenditure", :id => "past_expenditure" do
+      - f.inputs "Past Expenditure", :id => "past_expenditure", :class => "collapsible" do
         = f.input :spend, :label => 'Total Spend GOR FY 09-10', :required => false
         = f.input :spend_q4_prev, :label => 'Spend in your FY 08-09 Q4', :required => false
         = f.input :spend_q1, :label => 'Spend in Your FY 09-10 Q1', :required => false

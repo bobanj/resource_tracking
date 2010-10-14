@@ -23,8 +23,8 @@ class FundingSourcesController < ApplicationController
 
   def search
     respond_to do |format|
-      format.html { render :template => "shared/_search" }
-      format.js   { render :partial => "shared/search", :layout => false }
+      format.html { render :template => "shared/_search", :locals => {:url => funding_sources_path} }
+      format.js   { render :partial => "shared/search", :locals => {:url => funding_sources_path}, :layout => false }
     end
   end
 

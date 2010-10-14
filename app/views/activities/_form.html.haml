@@ -1,0 +1,32 @@
+/ js event: .form_box, .new_form, .edit_form
+%div{:class => "form_box #{(activity.new_record? ? 'new_form' : 'edit_form')}"}
+  / js event: .cancel_btn
+  = link_to "Close", activities_path, :class => "cancel_btn close"
+  - semantic_form_for activity, :html => {:multipart => true} do |f|
+    = f.semantic_errors :state
+    - f.inputs do
+      - f.inputs "Basic", :id => "basic", :class => "collapsible" do
+        - projects = @current_data_response.projects.find(:all, :select => "id, name", :order => "name ASC")
+        = f.input :projects, :label => 'Projects', :as => :check_boxes, :required => false, :collection => projects 
+        = f.input :locations, :label => 'Districts Worked In', :as => :check_boxes, :required => false, :collection => Location.find(:all, :joins => :projects, :conditions => ["projects.id IN (?)", projects.map(&:id)])
+        = f.input :provider, :label => 'Implementer', :required => false, :collection => Organization.find(:all, :select => "DISTINCT(organizations.id), organizations.name", :joins => :in_flows, :conditions => ["funding_flows.project_id in (?)", projects.map(&:id)], :order => "organizations.name ASC")
+        = f.input :name, :label => 'Name', :required => false
+        = f.input :description, :label => 'Description', :required => false
+        = f.input :start, :label => 'Start date', :as => :string, :input_html => {:class => "date_picker"}
+        = f.input :end, :label => 'End date', :as => :string, :input_html => {:class => "date_picker"}
+        = f.input :beneficiaries, :label => 'Districts Worked In', :as => :check_boxes, :required => false, :collection => Beneficiary.find(:all, :select => "id, short_display", :order => "short_display ASC")
+        = f.input :text_for_beneficiaries, :label => 'Text for beneficiaries', :required => false
+      - f.inputs "Planned Expenditure", :id => "planned_expenditure", :class => "collapsible" do
+        = f.input :budget, :label => 'Total Budget GOR FY 10-11', :required => false
+      - f.inputs "Past Expenditure", :id => "past_expenditure", :class => "collapsible" do
+        = f.input :spend, :label => 'Total Spend GOR FY 09-10', :required => false
+        = f.input :spend_q4_prev, :label => 'Spend in your FY 08-09 Q4', :required => false
+        = f.input :spend_q1, :label => 'Spend in Your FY 09-10 Q1', :required => false
+        = f.input :spend_q2, :label => 'Spend in Your FY 09-10 Q2', :required => false
+        = f.input :spend_q3, :label => 'Spend in Your FY 09-10 Q3', :required => false
+        = f.input :spend_q4, :label => 'Spend in Your FY 09-10 Q4', :required => false
+      - f.buttons do
+        / js event: .cancel_btn
+        = link_to "Cancel", activities_path, :class => "cancel_btn"
+        / js event: .submit_btn
+        = f.commit_button :label => (activity.new_record? ? "Create activity" : "Update activity"), :button_html => { :class => "submit_btn" }

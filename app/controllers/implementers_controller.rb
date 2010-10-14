@@ -14,7 +14,7 @@ class ImplementersController < ApplicationController
   sortable_attributes :budget, :spend, :project => "projects.name", :to => "organizations.name"
 
   def index
-    @implementers = @current_data_response.funding_flows.sources.matching(params[:q], 'implementers').find(:all, :include => [:data_response, :project, :to], :order => sort_order(:default => 'ascending'))
+    @implementers = @current_data_response.funding_flows.implementers(current_user.organization).matching(params[:q], 'implementers').find(:all, :include => [:data_response, :project, :to], :order => sort_order(:default => 'ascending'))
     respond_to do |format|
       format.html
       format.js { render :partial => 'table', :locals => {:implementers => @implementers } }
@@ -23,8 +23,8 @@ class ImplementersController < ApplicationController
 
   def search
     respond_to do |format|
-      format.html { render :template => "shared/_search" }
-      format.js   { render :partial => "shared/search", :layout => false }
+      format.html { render :template => "shared/_search", :locals => {:url => implementers_path} }
+      format.js   { render :partial => "shared/search", :locals => {:url => implementers_path}, :layout => false }
     end
   end
 
@@ -106,7 +106,7 @@ class ImplementersController < ApplicationController
   end
 
   def delete
-    @implementer = @current_data_response.funding_flows.sources.find(params[:id])
+    @implementer = @current_data_response.funding_flows.find(params[:id])
   end
 
   private
