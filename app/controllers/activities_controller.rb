@@ -41,7 +41,7 @@ class ActivitiesController < ActiveScaffoldController
     @activity = @current_data_response.activities.find(params[:id])
     respond_to do |format|
       format.html
-      format.js   { render :partial => 'row', :locals => {:activity => resource} }
+      format.js   { render :partial => 'row', :locals => {:activity => @activity} }
       format.json { render :json => @activity }
     end
   end

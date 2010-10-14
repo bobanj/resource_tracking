@@ -41,7 +41,7 @@ class ProjectsController < ApplicationController
     @project = @current_data_response.projects.find(params[:id])
     respond_to do |format|
       format.html
-      format.js   { render :partial => 'row', :locals => {:project => resource} }
+      format.js   { render :partial => 'row', :locals => {:project => @project} }
       format.json { render :json => @project }
     end
   end
