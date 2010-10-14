@@ -15,20 +15,15 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :projects, :member => {:delete => :get}, :collection => {:search => :get}
   map.resources :funding_sources, :member => {:delete => :get}, :collection => {:search => :get}
   map.resources :implementers, :member => {:delete => :get}, :collection => {:search => :get}
-
-  map.resources :organizations,
-      :collection => {:browse => :get},
-      :member => {:select => :post}, :active_scaffold => true
-
-
-  map.resources :activities,
-                :member => { :approve => :put, :use_budget_codings_for_spend => :put },
-                :active_scaffold => true          do |activity|
-
+  map.resources :activities, :member => {:delete => :get, :approve => :put, :use_budget_codings_for_spend => :put }, :collection => {:search => :get} do |activity|
     map.resources :classifications, :member => { :popup_classification => :get }, :active_scaffold => true
     activity.resource :coding, :controller => :code_assignments, :only => [:show, :update]
     map.resources :sub_activities, :active_scaffold => true
   end
+
+  map.resources :organizations,
+      :collection => {:browse => :get},
+      :member => {:select => :post}, :active_scaffold => true
 
   map.popup_other_cost_coding "popup_other_cost_coding", :controller => 'other_costs', :action => 'popup_coding'
 

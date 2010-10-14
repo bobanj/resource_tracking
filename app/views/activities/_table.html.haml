@@ -1,0 +1,15 @@
+/ js event: table#main_table
+%table#main_table
+  %thead
+    %tr
+      = sortable_table_header :name => "Organization",  :sort => "organization"
+      %th Projects
+      = sortable_table_header :name => "Implementer",  :sort => "implementer"
+      = sortable_table_header :name => "Description",  :sort => "description"
+      = sortable_table_header :name => "Name",  :sort => "name"
+      = sortable_table_header :name => "Total Budget GOR FY 10-11",  :sort => "budget"
+      = sortable_table_header :name => "Total Spend GOR FY 09-10",  :sort => "spend"
+      %th#manage Manage
+  / js event: table#main_table tbody
+  %tbody
+    = render :partial => 'row', :collection => activities, :as => :activity

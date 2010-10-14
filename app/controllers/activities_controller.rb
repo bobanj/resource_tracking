@@ -1,104 +1,114 @@
 class ActivitiesController < ActiveScaffoldController
+
+  # Authorization
   authorize_resource
 
+  # Filters
   before_filter :check_user_has_data_response
-
-  include ActivitiesHelper
-
-  @@shown_columns           = [:organization, :projects, :provider, :description, :name, :budget, :spend ]
-  @@create_columns          = [:projects, :locations, :provider, :name, :description, :start, :end, :beneficiaries, :text_for_beneficiaries,:spend, :spend_q4_prev, :spend_q1, :spend_q2, :spend_q3, :spend_q4, :budget]
-  @@update_columns          = [:projects, :locations, :text_for_provider, :provider, :name, :description,  :start, :end, :beneficiaries, :text_for_beneficiaries, :text_for_targets, :spend, :spend_q4_prev, :spend_q1, :spend_q2, :spend_q3, :spend_q4, :budget]
-  @@columns_for_file_upload = %w[name description text_for_targets text_for_beneficiaries text_for_provider spend spend_q4_prev spend_q1 spend_q2 spend_q3 spend_q4 budget]
-
-  def self.create_columns
-    @@create_columns
+  before_filter :load_data_response
+  before_filter do |controller|
+    controller.send(:load_model_help) if controller.request.format.html?
   end
 
-  map_fields :create_from_file, @@columns_for_file_upload, :file_field => :file
+  # Sortable table
+  sortable_attributes :name, :description, :budget, :spend, :organization => "organizations.name", :implementer => "implementers.name"
 
-  active_scaffold :activity do |config|
-    config.columns        = @@shown_columns
-    config.create.columns = @@create_columns
-    config.update.columns = @@update_columns
-    list.sorting          = {:name => 'DESC'}
+  def index
+    @activities = @current_data_response.activities.roots.matching(params[:q]).find(:all, :order => sort_order(:default => 'ascending'), :joins => 'LEFT OUTER JOIN organizations as implementers ON activities.provider_id = implementers.id', :include => [{:data_response => :responding_organization}, :provider, :projects])
+    respond_to do |format|
+      format.html
+      format.js { render :partial => 'table', :locals => {:activities => @activities} }
+    end
+  end
 
-    config.action_links.add('Classify', @@classify_popup_link_options)
+  def search
+    respond_to do |format|
+      format.html { render :template => "shared/_search", :locals => {:url => activities_path} }
+      format.js   { render :partial => "shared/search", :locals => {:url => activities_path}, :layout => false }
+    end
+  end
 
-    config.nested.add_link("Institutions Assisted", [:organizations])
-    config.columns[:organizations].association.reverse = :activities
-    config.nested.add_link("Sub Implementers", [:sub_activities])
-    config.nested.add_link("Comments", [:comments])
-    config.columns[:comments].association.reverse = :commentable
-    config.columns[:organization].sort_by :method => "organization_name"
-    config.columns[:projects].form_ui             = :select
-    config.columns[:locations].form_ui            = :select
-    config.columns[:locations].label              = "Districts Worked In"
-    config.columns[:provider].form_ui             = :select
-    config.columns[:provider].association.reverse = :provider_for
-    config.columns[:provider].label               = "Implementer"
-    config.columns[:name].inplace_edit            = true
-    config.columns[:name].label                   = "Name (Optional)"
-    config.columns[:description].inplace_edit     = true
-    config.columns[:description].options          = {:cols => 60, :rows => 8}
-    config.columns[:beneficiaries].form_ui        = :select
-    #config.actions.exclude :nested # causes problem on page /activities when logged in as admin
+  def new
+    @activity = Activity.new
+    @activity.location_ids = [] # cut on db selects
+    respond_to do |format|
+      format.html
+      format.js { render :partial => "form", :locals => {:activity => @activity } }
+    end
+  end
 
+  def show
+    @activity = @current_data_response.activities.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.js   { render :partial => 'row', :locals => {:activity => resource} }
+      format.json { render :json => @activity }
+    end
+  end
 
-    [config.update.columns, config.create.columns].each do |columns|
-      columns.add_subgroup "Planned Expenditure" do |budget_group|
-        budget_group.add :budget
+  def edit
+    @activity = @current_data_response.activities.find(params[:id], :include => :locations) # eager load locations
+    respond_to do |format|
+      format.html
+      format.js { render :partial => "form", :locals => {:activity => @activity } }
+    end
+  end
+
+  def create
+    @activity = @current_data_response.activities.new(params[:activity])
+
+    if @activity.save
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "Activity was successfully created."
+          redirect_to activities_url
+        end
+        format.js   { render :partial => "row",  :locals => {:activity => @activity} }
       end
-      columns.add_subgroup "Past Expenditure" do |funds_group|
-        funds_group.add :spend, :spend_q4_prev, :spend_q1, :spend_q2, :spend_q3, :spend_q4
+    else
+      respond_to do |format|
+        format.html { render :action => "new" }
+        format.js   { render :partial => "form", :locals => {:activity => @activity}, :status => :partial_content } # :partial_content => 206
       end
     end
+  end
 
-    config.columns[:spend].label = "Total Spend GOR FY 09-10"
-    config.columns[:budget].label = "Total Budget GOR FY 10-11"
-    [:spend, :budget].each do |c|
-      quarterly_amount_field_options config.columns[c]
-      config.columns[c].inplace_edit = true
-    end
+  def update
+    @activity = @current_data_response.activities.find(params[:id])
 
-    [:start, :end].each do |c|
-      config.columns[c].label = "#{c.to_s.capitalize} Date"
-    end
-
-    %w[q1 q2 q3 q4].each do |quarter|
-      c = "spend_"+quarter
-      c = c.to_sym
-      config.columns[c].inplace_edit = true
-      quarterly_amount_field_options config.columns[c]
-      config.columns[c].label = "Spend in Your FY 09-10 "+ quarter.capitalize
-    end
-    config.columns[:spend_q4_prev].inplace_edit = true
-    quarterly_amount_field_options config.columns[:spend_q4_prev]
-    config.columns[:spend_q4_prev].label = "Spend in your FY 08-09 Q4"
-    [:text_for_beneficiaries, :text_for_targets, :text_for_provider].each do |c|
-      config.columns[c].form_ui = :textarea
-      config.columns[c].options = {:cols => 50, :rows => 3}
+    if @activity.update_attributes(params[:activity])
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "Activity was successfully updated."
+          redirect_to activities_url
+        end
+        format.js   { render :partial => "row",  :locals => {:activity => @activity} }
+        format.json { render :nothing =>  true }
+      end
+    else
+      respond_to do |format|
+        format.html { render :action => "edit" }
+        format.js   { render :partial => "form", :locals => {:activity => @activity}, :status => :partial_content } # :partial_content => 206
+        format.json { render :nothing =>  true }
+      end
     end
   end
 
-  def self.create_columns
-    @@create_columns
+  def destroy
+    @activity = @current_data_response.activities.find(params[:id])
+    @activity.destroy
+    respond_to do |format|
+      format.html do
+        flash[:notice] = "Activity was successfully deleted."
+        redirect_to activities_url
+      end
+      format.js   { render :nothing => true }
+    end
+
   end
 
-  def conditions_for_collection
-    ["activities.type IS NULL "]
-  end
-
-  def beginning_of_chain
-    super.available_to current_user
-  end
-
-  def create_from_file
-    super @@columns_for_file_upload
-  end
-
-  #fixes create
-  def before_create_save record
-    record.data_response = current_user.current_data_response
+  def delete
+    @activity = @current_data_response.activities.find(params[:id])
   end
 
   def approve
@@ -115,4 +125,8 @@ class ActivitiesController < ActiveScaffoldController
     render :nothing => true
   end
 
+  private
+  def load_model_help
+    @model_help = ModelHelp.find_by_model_name("Activity")
+  end
 end
