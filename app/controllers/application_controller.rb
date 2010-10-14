@@ -25,4 +25,8 @@ class ApplicationController < AuthlogicController
       redirect_to user_dashboard_path(current_user)
     end
   end
+
+  def load_data_response
+    @current_data_response = current_user.try(:current_data_response)
+  end
 end

@@ -30,10 +30,10 @@ module NavigationHelpers
       login_path
 
     when /the funding sources page/
-      funding_sources_data_entry_path
+      funding_sources_path
 
     when /the implementers page/
-      providers_data_entry_path
+      implementers_path
 
     when /the other costs page/
       other_costs_path

@@ -1,0 +1,11 @@
+- title("Delete implementer")
+
+%h1 Delete implementer
+
+Are you sure you want to delete implementer on project
+%b= @implementer.project.try(:name)
+to organization
+%b= @implementer.to.try(:name)
+?
+
+= button_to 'Delete', implementer_path(@implementer), :method => :delete

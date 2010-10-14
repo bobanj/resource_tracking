@@ -20,18 +20,16 @@
 #  data_response_id     :integer
 #
 
-require 'lib/ActAsDataElement'
 class FundingFlow < ActiveRecord::Base
 
   acts_as_commentable
 
-  include ActAsDataElement
-  configure_act_as_data_element
-
   # Attributes
-  attr_accessible :budget, :organization_text, :project,
+  attr_accessible :budget, :organization_text,
     :from, :to, :self_provider_flag,
-    :spend, :spend_q4_prev, :spend_q1, :spend_q2, :spend_q3, :spend_q4
+    :spend, :spend_q4_prev, :spend_q1, :spend_q2, :spend_q3, :spend_q4, :project_id,
+    :project, :organization_id_from, :organization_id_to
+  attr_accessible :data_response
 
   # Validations
   validates_presence_of :project_id
@@ -40,6 +38,23 @@ class FundingFlow < ActiveRecord::Base
   belongs_to :from, :class_name => "Organization", :foreign_key => "organization_id_from"
   belongs_to :to, :class_name => "Organization", :foreign_key => "organization_id_to"
   belongs_to :project
+  belongs_to :data_response
+  has_one :owner, :through => :data_response, :source => :responding_organization
+
+  # Named scopes
+  named_scope :sources, :conditions => "funding_flows.self_provider_flag = 0"
+  named_scope :implementers, lambda {|organization| {:conditions => ["funding_flows.organization_id_from = ?", organization.id]} }
+  named_scope :matching, lambda {|value, type| value.blank? ? 
+    {} : {:conditions => ["organizations.name LIKE :value OR projects.name LIKE :value OR funding_flows.budget LIKE :value OR funding_flows.spend LIKE :value", {:value => "%#{value}%"}], 
+    :joins => [(type == 'sources' ? "LEFT OUTER JOIN organizations ON funding_flows.organization_id_from = organizations.id" : "LEFT OUTER JOIN organizations ON funding_flows.organization_id_to = organizations.id"), "LEFT OUTER JOIN projects ON funding_flows.project_id = projects.id"].join(' ')} }
+  # TODO: remove this after AS is removed!
+  named_scope :available_to, lambda { |current_user|
+    if current_user.role?(:admin)
+      {}
+    else
+      {:conditions=>{:data_response_id => current_user.current_data_response.try(:id)}}
+    end
+  }
 
   def to_s
     "Flow"#: #{from.to_s} to #{to.to_s} for #{project.to_s}"

@@ -190,7 +190,7 @@ var get_form_type = function (element) {
   return element.parents('.form_box').attr('class').replace(/form_box /, '').split('_')[0];
 }
 
-var projects_index = {
+var projects_index = funding_sources_index = implementers_index = {
   run: function () {
 
     // new

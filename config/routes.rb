@@ -12,13 +12,9 @@ ActionController::Routing::Routes.draw do |map|
     map.create_from_file_form model+"/create_from_file_form", :controller => model, :action => "create_from_file_form"
   end
 
-  map.funding_sources_data_entry "funding_sources",
-    :controller => 'funding_sources', :action => 'index'
-
-  map.providers_data_entry "providers",
-    :controller => 'providers', :action => 'index'
-
   map.resources :projects, :member => {:delete => :get}, :collection => {:search => :get}
+  map.resources :funding_sources, :member => {:delete => :get}, :collection => {:search => :get}
+  map.resources :implementers, :member => {:delete => :get}, :collection => {:search => :get}
 
   map.resources :organizations,
       :collection => {:browse => :get},
@@ -40,7 +36,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :comments, :active_scaffold => true
   map.resources :field_helps, :active_scaffold => true
   map.resources :model_helps, :active_scaffold => true
-  map.resources :funding_flows, :active_scaffold => true
+  #map.resources :funding_flows, :active_scaffold => true
   map.resources :codes, :active_scaffold => true
   map.resources :other_costs, :active_scaffold => true
 
