@@ -24,7 +24,7 @@ class DataResponsesController < ApplicationController
         format.html { redirect_to( :action => 'start', :id => @data_response.id ) }
       else
         flash[:error] = "Couldn't create your response"
-        format.html { redirect_to reporter_dashboard_url() }
+        format.html { redirect_to dashboard_path }
       end
     end
   end

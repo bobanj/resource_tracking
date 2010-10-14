@@ -34,7 +34,7 @@ class AuthlogicController < ActionController::Base
     unless current_user.role?(:admin)
       store_location
       flash[:notice] = "You must be admin to access that page"
-      redirect_to reporter_dashboard_url
+      redirect_to new_user_session_url
       return false
     end
   end

@@ -12,6 +12,7 @@ ActionController::Routing::Routes.draw do |map|
     map.create_from_file_form model+"/create_from_file_form", :controller => model, :action => "create_from_file_form"
   end
 
+  map.dashboard 'dashboard', :controller => 'dashboard'
   map.resources :projects, :member => {:delete => :get}, :collection => {:search => :get}
   map.resources :funding_sources, :member => {:delete => :get}, :collection => {:search => :get}
   map.resources :implementers, :member => {:delete => :get}, :collection => {:search => :get}
@@ -43,34 +44,17 @@ ActionController::Routing::Routes.draw do |map|
   map.login 'login', :controller => 'user_sessions', :action => 'new'
   map.logout 'logout', :controller => 'user_sessions', :action => 'destroy'
 
-  map.reporter_dashboard "reporter_dashboard", :controller => 'static_page', :action => "reporter_dashboard"
-
   #reports
-  map.activities_by_district 'activities_by_district', :controller => 'reports', :action => 'activities_by_district'
-  map.activities_by_district_sub_activities 'activities_by_district_sub_activities', :controller => 'reports', :action => 'activities_by_district_sub_activities'
-  map.activities_by_budget_coding 'activities_by_budget_coding', :controller => 'reports', :action => 'activities_by_budget_coding'
-  map.activities_by_budget_cost_cat 'activities_by_budget_cost_cat', :controller => 'reports', :action => 'activities_by_budget_cost_cat'
-  map.activities_by_expenditure_coding 'activities_by_expenditure_coding', :controller => 'reports', :action => 'activities_by_expenditure_coding'
-  map.activities_by_expenditure_cost_cat 'activities_by_expenditure_cost_cat', :controller => 'reports', :action => 'activities_by_expenditure_cost_cat'
-  map.activity_report 'activity_report', :controller => 'reports', :action => 'activity_report'
-  map.activities_by_district_new 'activities_by_district_new', :controller => 'reports', :action => 'activities_by_district_new'
-  map.activities_by_budget_coding_new 'activities_by_budget_coding_new', :controller => 'reports', :action => 'activities_by_budget_coding_new'
-  map.activities_by_district_row_report 'activities_by_district_row_report', :controller => 'reports', :action => 'activities_by_district_row_report'
-  map.activities_by_budget_stratprog 'activities_by_budget_stratprog', :controller => 'reports', :action => 'activities_by_budget_stratprog'
-  map.users_by_organization 'users_by_organization', :controller => 'reports', :action => 'users_by_organization'
-  map.users_in_my_organization 'users_in_my_organization', :controller => 'reports', :action => 'users_in_my_organization'
-
-  # these routes make the pages accessible without security checks
-  #TODO - this doesnt belong here. Must be moved to the controller - GR
-  %w[about news contact submit].each do |p|
-    map.send(p.to_sym, p, :controller => 'static_page', :action => p)
+  map.resources :reports, :only => [:index, :show]
+  map.namespace "admin" do |admin|
+    admin.dashboard 'dashboard', :controller => 'dashboard'
+    admin.resources :reports, :only => [:index, :show]
   end
 
   map.static_page ':page',
                   :controller => 'static_page',
                   :action => 'show',
-                  :page => Regexp.new(%w[about contact admin_dashboard about news submit user_guide reports].join('|'))
+                  :page => Regexp.new(%w[about contact help news].join('|'))
 
   map.root :controller => 'static_page', :action => 'index' # a replacement for public/index.html
-
 end
