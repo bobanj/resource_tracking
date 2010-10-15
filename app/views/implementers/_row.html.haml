@@ -1,8 +1,8 @@
 %tr{:id => "row_#{implementer.id}", :class => cycle("even", "odd")}
-  %th= implementer.project.try(:name)
-  %th= implementer.to.try(:name)
-  %th= number_to_currency(implementer.budget, :unit => '', :separator => ".", :delimiter => ",")
-  %th= number_to_currency(implementer.spend, :unit => '', :separator => ".", :delimiter => ",")
+  %td= implementer.project.try(:name)
+  %td= implementer.to.try(:name)
+  %td= number_to_currency(implementer.budget, :unit => '', :separator => ".", :delimiter => ",")
+  %td= number_to_currency(implementer.spend, :unit => '', :separator => ".", :delimiter => ",")
   %td
     / js event .edit_btn, .destroy_btn
     = link_to "Edit", edit_implementer_path(implementer), :class => "edit_btn"
