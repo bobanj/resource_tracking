@@ -1,11 +1,11 @@
 %tr{:id => "row_#{activity.id}", :"data-object" => "activity", :"data-url" => "/activities/#{activity.id}", :class => cycle("even", "odd")}
-  %th= activity.try(:organization)
-  %th= activity.projects.collect{|p| link_to(p.name, p) }.join(', ')
-  %th= activity.provider.try(:name)
-  %th{:class => "rest_in_place", :"data-attribute" => "description" }= activity.description
-  %th{:class => "rest_in_place", :"data-attribute" => "name" }= activity.name
-  %th= number_to_currency(activity.budget, :unit => '', :separator => ".", :delimiter => ",")
-  %th= number_to_currency(activity.spend, :unit => '', :separator => ".", :delimiter => ",")
+  %td= activity.try(:organization)
+  %td= activity.projects.collect{|p| link_to(p.name, p) }.join(', ')
+  %td= activity.provider.try(:name)
+  %td{:class => "rest_in_place", :"data-attribute" => "description" }= activity.description
+  %td{:class => "rest_in_place", :"data-attribute" => "name" }= activity.name
+  %td= number_to_currency(activity.budget, :unit => '', :separator => ".", :delimiter => ",")
+  %td= number_to_currency(activity.spend, :unit => '', :separator => ".", :delimiter => ",")
   %td
     / js event .edit_btn, .destroy_btn
     = link_to "Classify", activity_coding_path(activity)

@@ -1,8 +1,8 @@
 %tr{:id => "row_#{funding_source.id}", :class => cycle("even", "odd")}
-  %th= funding_source.project.try(:name)
-  %th= funding_source.from.try(:name)
-  %th= number_to_currency(funding_source.budget, :unit => '', :separator => ".", :delimiter => ",")
-  %th= number_to_currency(funding_source.spend, :unit => '', :separator => ".", :delimiter => ",")
+  %td= funding_source.project.try(:name)
+  %td= funding_source.from.try(:name)
+  %td= number_to_currency(funding_source.budget, :unit => '', :separator => ".", :delimiter => ",")
+  %td= number_to_currency(funding_source.spend, :unit => '', :separator => ".", :delimiter => ",")
   %td
     / js event .edit_btn, .destroy_btn
     = link_to "Edit", edit_funding_source_path(funding_source), :class => "edit_btn"

@@ -52,7 +52,7 @@ var add_new_form = function (data) {
 };
 
 var add_edit_form = function (row_id, data) {
-  jQuery('#' + row_id).html('<th colspan="100">' + data + '</th>').addClass("edit_row");
+  jQuery('#' + row_id).html('<td colspan="100">' + data + '</td>').addClass("edit_row");
 };
 
 var add_new_row = function (data) {
