@@ -80,18 +80,18 @@ var admin_data_responses_show = {
     });
 
     var map = new F1.Maker.Map({
-      map_id: 31454, 
-      dom_id: "map_box", 
+      map_id: 31454,
+      dom_id: "map_box",
       onload: function() {
-        document.getElementById('results').innerHTML += "Map loaded<br/>" 
+        document.getElementById('results').innerHTML += "Map loaded<br/>"
       },
       uiZoom: false,
       uiLayers: false,
       uiStyles: false,
       uiLegend: false,
       extent: "-80, 35, -75, 40",
-      zoomLevel: 5,
-      mapProvider: "Rwanda Resource Tracking Database" 
+      //zoomLevel: 5, // DONT INCLUDE THIS - BREAKS FFOX/CHROME
+      mapProvider: "Rwanda Resource Tracking Database"
     });
   }
 };
@@ -110,7 +110,7 @@ var code_assignments_show = {
     };
 
     /*
-     * Appends tab content 
+     * Appends tab content
      * @param {String} tab
      * @param {String} response
      *

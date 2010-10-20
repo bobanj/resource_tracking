@@ -4,18 +4,18 @@ body.app
       cursor: pointer
     &.entry_main
       display: none
-    
+
   .full-width
     h2
       background: none
       margin: 10px 10px 0
       text-transform: none
-      
+
   /* default layout for a simple table */
   .simple_table
     padding: 0 10px 10px 10px
     +clearfix
-    
+
     a
       color: $orange
       &:hover, &:focus, &:active
@@ -52,7 +52,7 @@ body.app
         color: white
         font-size: 0.9em
         /* end */
-  
+
     .third
       float: left
       margin-right: 3%
@@ -90,7 +90,7 @@ body.app
         border: 1px solid $light-blue
         margin: -1px 0 0
         padding: 7px 5px 5px
-      
+
     .classifications ul
       +horizontal-list
       border-bottom: 1px solid $light-blue
@@ -103,7 +103,7 @@ body.app
       color: $mid-blue
       display: inline-block
       font-weight: bold
-      
+
     li
       padding-top: 5px
       &.funders
@@ -126,10 +126,15 @@ body.app
       float: right
       margin-right: 0
       text-align: right
-    .activities 
+    .activities
       thead
         font-size: 1.1em
         tr:hover
           background: $mid-blue
       tbody
         font-size: 1.2em
+
+
+#map_container
+  height: 400px
+  width: 70%
