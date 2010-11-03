@@ -33,7 +33,7 @@ class Code < ActiveRecord::Base
 
   def sum_of_assignments_for_activities (type,activities = self.activities)
     logger.debug("type #{type} - activities #{activities}")
-    CodeAssignment.with_code_id(id).with_type(type).with_activities(activities).sum(:cached_amount)
+    CodeAssignment.with_code_id(id).with_type(type.to_s).with_activities(activities).sum(:cached_amount)
   end
 
   # todo recurse with array then join
