@@ -9,7 +9,15 @@ class CodingSpendDistrict < SpendCodeAssignment
   end
 
   def self.available_codes(activity = nil)
-    activity.locations
+    unless activity.nil?
+      activity.locations
+    else
+      Location.all
+    end
+  end
+
+  def self.possible_codes(activity = nil)
+    Location.all
   end
 end
 

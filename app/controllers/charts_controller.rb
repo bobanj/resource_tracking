@@ -98,7 +98,7 @@ class ChartsController < ApplicationController
     when 'budget_coding'
       type = CodingBudget
     when 'budget_districts'
-      type = CodingBudgetDistricts
+      type = CodingBudgetDistrict
     when 'budget_cost_categorization'
       type = CodingBudgetCostCategorization
     when 'spend_coding'
@@ -110,9 +110,9 @@ class ChartsController < ApplicationController
     else
       raise "Wrong chart type".to_yaml
     end
-    roots = type.roots
-    codes = nil #code_class.all #just union Mtef.all Nha.all etc here as appro
-
+    roots = type.available_codes(activity)
+    codes = type.possible_codes(activity)
+    data_rows = Code.treemap_for_codes(roots, codes, type, [activity])
     return data_rows
   end
 end

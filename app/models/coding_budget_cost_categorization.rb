@@ -3,6 +3,10 @@ class CodingBudgetCostCategorization < BudgetCodeAssignment
   def self.available_codes(activity = nil)
     CostCategory.roots
   end
+
+  def self.possible_codes(activity = nil)
+    CostCategory.all
+  end
 end
 
 # == Schema Information

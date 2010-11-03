@@ -32,11 +32,13 @@ class Code < ActiveRecord::Base
   end
 
   def sum_of_assignments_for_activities (type,activities = self.activities)
+    logger.debug("type #{type} - activities #{activities}")
     CodeAssignment.with_code_id(id).with_type(type).with_activities(activities).sum(:cached_amount)
   end
 
   # todo recurse with array then join
   def self.treemap_for_codes(code_roots, codes, type, activities)
+    logger.debug("type #{type} ! activities #{activities} #{activities.size}")
     # TODO better coloring
     # format is my value, parent value, box_area_value, coloring_value
     rows = []

@@ -7,6 +7,14 @@ class CodingSpend < SpendCodeAssignment
       Code.for_activities.roots
     end
   end
+
+  def self.possible_codes(activity = nil)
+    if activity.class.to_s == "OtherCost"
+      OtherCostCode.roots
+    else
+      Code.for_activities
+    end
+  end
 end
 
 # == Schema Information
