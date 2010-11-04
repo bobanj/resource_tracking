@@ -1,6 +1,7 @@
 %li
   = code.short_display
   = link_to "?", "#", :title => code.description, :class => "tooltip" if code.description
+  = render 'progress', :progress => 50
 
   - unless code.leaf?
     %ul{:id => code.external_id}

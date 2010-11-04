@@ -504,7 +504,7 @@ var policy_maker_data_responses_show = {
   }
 };
 
-var createChart = function () {
+var createLevelOnePieChart = function () {
   var domId = 'chart';
   var urlEndpoint = '/charts/level_one_pie_chart';
 
@@ -526,7 +526,8 @@ var createChart = function () {
 
 var policy_maker_target_reports_index = {
   run: function () {
-    createChart();
+    createLevelOnePieChart();
+    jQuery('ul.activity_tree').collapsibleCheckboxTree({tab: 'tab1'});
   }
 };
 
@@ -629,6 +630,7 @@ var data_responses_review = {
     })
   }
 }
+
 
 jQuery(function () {
   var id = jQuery('body').attr("id");
