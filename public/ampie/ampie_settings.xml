@@ -4,8 +4,8 @@
   <csv_separator>,</csv_separator>                             <!-- [;] (string) csv file data separator (you need it only if you are using csv file for your data) -->
 
   <pie>
-    <x>80</x>
-    <y>80</y>
+    <x>100</x>
+    <y>100</y>
     <inner_radius>40</inner_radius>
     <height>20</height>
     <angle>30</angle>
@@ -43,12 +43,12 @@
   <legend>
     <enabled></enabled>
     <max_columns>1</max_columns>
-    <x>300</x>
-    <y>50</y>-->
-    <width>200</width>
+    <x>195</x>
+    <y>40</y>-->
+    <width>145</width>
     <values>
       <enabled>true</enabled>
-      <width>50</width>
+      <width>25</width>
       <text><![CDATA[{percents}%]]></text>
      </values>
   </legend>
