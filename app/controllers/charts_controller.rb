@@ -15,26 +15,39 @@ class ChartsController < ApplicationController
     send_data(get_csv_string(@assignments), :type => 'text/csv; charset=iso-8859-1; header=present')
   end
 
-  def level_one_targets_pie_chart
-    level_one_ids = []
-    Mtef.roots.each do |code|
-      level_one_ids.concat(code.children.map(&:id))
+  def targets_pie_chart
+
+    code_ids = []
+
+    if params[:code_id].present?
+      code = Code.find(params[:code_id])
+      code_ids.concat(code.children.map(&:id))
+    else
+      Mtef.roots.each do |code|
+        code_ids.concat(code.children.map(&:id))
+      end
     end
 
     @codes = Code.find(:all,
                       :select => "short_display as name, target_amount as value",
-                      :conditions => ["id in (?)", level_one_ids])
+                      :conditions => ["id in (?)", code_ids])
 
     send_data(get_csv_string(@codes), :type => 'text/csv; charset=iso-8859-1; header=present')
   end
 
-  def level_one_budgets_pie_chart
-    level_one_ids = []
-    Mtef.roots.each do |code|
-      level_one_ids.concat(code.children.map(&:id))
+  def budgets_pie_chart
+    code_ids = []
+
+    if params[:code_id].present?
+      code = Code.find(params[:code_id])
+      code_ids.concat(code.children.map(&:id))
+    else
+      Mtef.roots.each do |code|
+        code_ids.concat(code.children.map(&:id))
+      end
     end
 
-    @assignments = CodingBudget.with_code_ids(level_one_ids).find(:all,
+    @assignments = CodingBudget.with_code_ids(code_ids).find(:all,
       :select => "codes.short_display AS name, sum(cached_amount) AS value",
       :joins => :code,
       :group => "code_assignments.code_id")

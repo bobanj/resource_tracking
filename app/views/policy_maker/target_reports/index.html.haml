@@ -1,10 +1,7 @@
 - javascript "/ampie/swfobject.js"
 
 %h2 Targets vs Budgets
-
-#level_one_targets_pie_chart.half
-
-#level_one_budgets_pie_chart.half
+= render 'charts'
 
 %ul.activity_tree
   - @codes.each do |code|
