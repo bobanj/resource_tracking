@@ -504,9 +504,8 @@ var policy_maker_data_responses_show = {
   }
 };
 
-var createLevelOnePieChart = function () {
-  var domId = 'chart';
-  var urlEndpoint = '/charts/level_one_pie_chart';
+var createLevelOnePieChart = function (domId, label) {
+  var urlEndpoint = '/charts/' + domId;
 
   var so = new SWFObject("/ampie/ampie.swf", "ampie", "600", "320", "8", "#FFFFFF");
   so.addVariable("path", "/ampie/");
@@ -516,7 +515,7 @@ var createLevelOnePieChart = function () {
     '<settings>' +
       '<labels>' +
         '<label lid="0">' +
-          '<text>' + 'Budgets' + '</title>' +
+          '<text>' + label + '</title>' +
         '</label>' +
       '</labels>' +
     '</settings>')
@@ -526,7 +525,8 @@ var createLevelOnePieChart = function () {
 
 var policy_maker_target_reports_index = {
   run: function () {
-    createLevelOnePieChart();
+    createLevelOnePieChart('level_one_targets_pie_chart', 'Targets');
+    createLevelOnePieChart('level_one_budgets_pie_chart', 'Budgets');
     jQuery('ul.activity_tree').collapsibleCheckboxTree({tab: 'tab1'});
   }
 };
