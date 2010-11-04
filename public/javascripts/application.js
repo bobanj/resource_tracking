@@ -504,7 +504,7 @@ var policy_maker_data_responses_show = {
   }
 };
 
-var createCodePieChart = function (domId, label, code_id) {
+var createCodesPieChart = function (domId, label, code_id) {
   var urlEndpoint = '/charts/' + domId;
 
   if (code_id) {
