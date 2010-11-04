@@ -507,7 +507,7 @@ var policy_maker_data_responses_show = {
 var createLevelOnePieChart = function (domId, label) {
   var urlEndpoint = '/charts/' + domId;
 
-  var so = new SWFObject("/ampie/ampie.swf", "ampie", "600", "320", "8", "#FFFFFF");
+  var so = new SWFObject("/ampie/ampie.swf", "ampie", "340", "340", "8", "#FFFFFF");
   so.addVariable("path", "/ampie/");
   so.addVariable("settings_file", encodeURIComponent("/ampie/ampie_settings.xml"));
   so.addVariable("data_file", encodeURIComponent(urlEndpoint));

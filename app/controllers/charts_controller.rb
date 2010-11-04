@@ -75,7 +75,7 @@ class ChartsController < ApplicationController
     csv_string = FasterCSV.generate do |csv|
       records.each_with_index do |record, index|
         if index < 10
-          csv << [first_n_words(h(record[:name]), 3), record[:value].to_f, nil, nil, nil, h(record[:name]) ]
+          csv << [h(record[:name]).first(10), record[:value].to_f, nil, nil, nil, h(record[:name]) ]
         else
           other += record[:value].to_f
         end
