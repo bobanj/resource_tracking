@@ -504,7 +504,7 @@ var policy_maker_data_responses_show = {
   }
 };
 
-var createLevelOnePieChart = function (domId, label, code_id) {
+var createCodesPieChart = function (domId, label, code_id) {
   var urlEndpoint = '/charts/' + domId;
 
   if (code_id) {
@@ -537,15 +537,15 @@ var popup = function (url, height, width) {
 
 var policy_maker_target_reports_show = {
   run: function () {
-    createLevelOnePieChart('targets_pie_chart', 'Targets', _code_id);
-    createLevelOnePieChart('budgets_pie_chart', 'Budgets', _code_id);
+    createCodesPieChart('targets_pie_chart', 'Targets', _code_id);
+    createCodesPieChart('budgets_pie_chart', 'Budgets', _code_id);
   }
 };
 
 var policy_maker_target_reports_index = {
   run: function () {
-    createLevelOnePieChart('targets_pie_chart', 'Targets');
-    createLevelOnePieChart('budgets_pie_chart', 'Budgets');
+    createCodesPieChart('targets_pie_chart', 'Targets');
+    createCodesPieChart('budgets_pie_chart', 'Budgets');
     jQuery('ul.activity_tree').collapsibleCheckboxTree({tab: 'tab1'});
 
     jQuery('.code_popup').click(function (e) {
