@@ -508,7 +508,7 @@ var createChart = function () {
   var domId = 'chart';
   var urlEndpoint = '/charts/level_one_pie_chart';
 
-  var so = new SWFObject("/ampie/ampie.swf", "ampie", "600", "300", "8", "#FFFFFF");
+  var so = new SWFObject("/ampie/ampie.swf", "ampie", "600", "320", "8", "#FFFFFF");
   so.addVariable("path", "/ampie/");
   so.addVariable("settings_file", encodeURIComponent("/ampie/ampie_settings.xml"));
   so.addVariable("data_file", encodeURIComponent(urlEndpoint));
