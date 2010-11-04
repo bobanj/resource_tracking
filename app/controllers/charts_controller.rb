@@ -16,7 +16,15 @@ class ChartsController < ApplicationController
   end
 
   def level_one_pie_chart
-    @assignments = []
+    level_one_ids = []
+    Mtef.roots.each do |code|
+      level_one_ids.concat(code.children.map(&:id))
+    end
+
+    @assignments = CodingBudget.with_code_ids(level_one_ids).find(:all, 
+      :select => "codes.short_display AS name, sum(cached_amount) AS value", 
+      :joins => :code,
+      :group => "code_assignments.code_id")
 
     send_data(get_csv_string(@assignments), :type => 'text/csv; charset=iso-8859-1; header=present')
   end
