@@ -1,5 +1,5 @@
-%li{:id => "code_#{code.id}", :class => "code_popup"}
-  = code.short_display
+%li
+  %a{:id => "code_#{code.id}", :class => "code_popup", :href => '#'}= code.short_display
   - unless code.target_amount == 0
     = "#{( code.code_assignments.with_type('CodingBudget').sum(:cached_amount) / code.target_amount * 100).round(0)}%"
   -#= render 'progress', :progress => 50
