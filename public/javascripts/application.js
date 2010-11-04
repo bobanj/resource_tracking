@@ -511,7 +511,7 @@ var createLevelOnePieChart = function (domId, label, code_id) {
     urlEndpoint += '?code_id=' + code_id;
   }
 
-  var so = new SWFObject("/ampie/ampie.swf", "ampie", "600", "320", "8", "#FFFFFF");
+  var so = new SWFObject("/ampie/ampie.swf", "ampie", "340", "340", "8", "#FFFFFF");
   so.addVariable("path", "/ampie/");
   so.addVariable("settings_file", encodeURIComponent("/ampie/ampie_settings.xml"));
   so.addVariable("data_file", encodeURIComponent(urlEndpoint));
