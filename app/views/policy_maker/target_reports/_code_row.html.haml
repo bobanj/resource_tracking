@@ -1,8 +1,10 @@
 %li
   = code.short_display
-  = link_to "?", "#", :title => code.description, :class => "tooltip" if code.description
-  = code.target_amount
-  = code.code_assignments.with_type('CodingBudget').sum(:cached_amount)
+  - unless code.target_amount == 0
+    = ( code.code_assignments.with_type('CodingBudget').sum(:cached_amount) / code.target_amount * 100).round(0)
+  - else
+    (n/a)
+  = "%"
   -#= render 'progress', :progress => 50
 
   - unless code.leaf?

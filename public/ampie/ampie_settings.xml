@@ -4,8 +4,8 @@
   <csv_separator>,</csv_separator>                             <!-- [;] (string) csv file data separator (you need it only if you are using csv file for your data) -->
 
   <pie>
-    <x>200</x>
-    <y>100</y>
+    <x>80</x>
+    <y>80</y>
     <inner_radius>40</inner_radius>
     <height>20</height>
     <angle>30</angle>
@@ -45,7 +45,7 @@
     <max_columns>1</max_columns>
     <x>300</x>
     <y>50</y>-->
-    <width>300</width>
+    <width>200</width>
     <values>
       <enabled>true</enabled>
       <width>50</width>
