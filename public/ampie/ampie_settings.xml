@@ -26,9 +26,6 @@
 
   <data_labels>
     <radius></radius>                                         <!-- [20%] (Number / Number%) distance of the labels from the pie. Use negative value to place labels on the pie -->
-    <!--<show>
-       <![CDATA[{title}: {percents}%]]>                       <!-- [] ({value} {title} {percents} {description}) You can format any data label: {value} - will be replaced with value and so on. You can add your own text or html code too. -->
-    <!--</show>-->
   </data_labels>
 
   <balloon>                                                   <!-- BALLOON -->
