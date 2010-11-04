@@ -19,6 +19,8 @@ class Code < ActiveRecord::Base
   named_scope :for_activities, :conditions => ["codes.type in (?)", ACTIVITY_ROOT_TYPES]
   named_scope :ordered, :order => 'lft'
 
+  validates_numericality_of :target_amount, :greater_than_or_equal_to => 0
+
   ### Public Methods
 
   def leaf_assigns_for_activities_for_code_set(type, leaf_ids, activities = self.activities)
