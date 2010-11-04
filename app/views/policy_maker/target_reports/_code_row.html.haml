@@ -1,0 +1,8 @@
+%li
+  = code.short_display
+  = link_to "?", "#", :title => code.description, :class => "tooltip" if code.description
+
+  - unless code.leaf?
+    %ul{:id => code.external_id}
+      - code.children.each do |child|
+        = render 'code_row', :code => child

@@ -3,3 +3,7 @@
 %h1 Targets vs Budget
 
 #chart
+
+%ul.activity_tree
+  - @codes.each do |code|
+    = render 'code_row', :code => code
