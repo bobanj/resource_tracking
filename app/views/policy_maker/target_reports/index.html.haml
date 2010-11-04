@@ -5,6 +5,6 @@
 %h2 Targets vs Budgets
 = render 'charts'
 
-%ul.activity_tree
-  - @codes.each do |code|
+%ul.activity_tree.targets
+  - @code_roots.each do |code|
     = render 'code_row', :code => code

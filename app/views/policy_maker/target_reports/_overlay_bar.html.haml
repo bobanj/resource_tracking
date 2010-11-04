@@ -1,0 +1,8 @@
+.overlay_bar-container
+  - style = "width: #{target}%"
+  %div.target{:style => style}
+  - style = ''
+  - style = "background: orange" if actual < 70
+  - style = "background: #973030" if actual < 30
+  - style = style + "; width: #{actual}%"
+  %div.actual{:style => style}

@@ -1,10 +1,10 @@
 %li
   %a{:id => "code_#{code.id}", :class => "code_popup", :href => policy_maker_target_report_path(code)}= code.short_display
   .right
-    - unless code.target_amount == 0
-      = "#{( code.code_assignments.with_type('CodingBudget').sum(:cached_amount) / code.target_amount * 100).round(0)}%"
-
-  -#= render 'progress', :progress => 50
+    - target = (@target_amounts[code.id] / @max * 100).round
+    - actual = (@actual_budgeted_amounts[code.id] / @max * 100).round
+    = render 'overlay_bar', :target => target, :actual => actual
+    = link_to "?", "#", :title => "Target: #{target}%, Actual: #{actual}%", :class => "tooltip"
 
   - unless code.leaf?
     %ul{:id => code.external_id}

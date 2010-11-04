@@ -539,7 +539,7 @@ var policy_maker_target_reports_index = {
     createCodesPieChart('targets_pie_chart', 'Targets');
     createCodesPieChart('budgets_pie_chart', 'Budgets');
     jQuery('ul.activity_tree').collapsibleCheckboxTree({tab: 'tab1'});
-
+    jQuery('.tooltip').tipsy({gravity: 's'});
     jQuery('.code_popup').fancybox({
       'width'         : '75%',
       'height'        : '75%',
