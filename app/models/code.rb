@@ -102,7 +102,7 @@ class Code < ActiveRecord::Base
   end
 
   def to_s
-    short_display
+    self.short_display
   end
 
   def to_s_prefer_official
