@@ -516,7 +516,7 @@ var createLevelOnePieChart = function () {
     '<settings>' +
       '<labels>' +
         '<label lid="0">' +
-          '<text>' + 'Level one pie chart' + '</title>' +
+          '<text>' + 'Budgets' + '</title>' +
         '</label>' +
       '</labels>' +
     '</settings>')
