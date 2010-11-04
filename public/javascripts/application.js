@@ -504,6 +504,32 @@ var policy_maker_data_responses_show = {
   }
 };
 
+var createChart = function () {
+  var domId = 'chart';
+  var urlEndpoint = '/charts/level_one_pie_chart';
+
+  var so = new SWFObject("/ampie/ampie.swf", "ampie", "600", "300", "8", "#FFFFFF");
+  so.addVariable("path", "/ampie/");
+  so.addVariable("settings_file", encodeURIComponent("/ampie/ampie_settings.xml"));
+  so.addVariable("data_file", encodeURIComponent(urlEndpoint));
+  so.addVariable("additional_chart_settings", encodeURIComponent(
+    '<settings>' +
+      '<labels>' +
+        '<label lid="0">' +
+          '<text>' + 'Level one pie chart' + '</title>' +
+        '</label>' +
+      '</labels>' +
+    '</settings>')
+  );
+  so.write(domId);
+};
+
+var policy_maker_target_reports_index = {
+  run: function () {
+    createChart();
+  }
+};
+
 var approve_activity_checkbox = function () {
   jQuery(".approve_activity").click(function () {
     //activity_id = Number(jQuery(this).attr('id').match(/\d+/)[0], 10);

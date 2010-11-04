@@ -15,6 +15,12 @@ class ChartsController < ApplicationController
     send_data(get_csv_string(@assignments), :type => 'text/csv; charset=iso-8859-1; header=present')
   end
 
+  def level_one_pie_chart
+    @assignments = []
+
+    send_data(get_csv_string(@assignments), :type => 'text/csv; charset=iso-8859-1; header=present')
+  end
+
   def data_response_treemap
     data_response = DataResponse.find(params[:id])
 
