@@ -99,6 +99,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.namespace :policy_maker do |policy_maker|
     policy_maker.resources :data_responses, :only => [:show, :index]
+    policy_maker.resources :target_reports, :only => [:show, :index]
   end
 
   map.namespace :reporter do |reporter|
