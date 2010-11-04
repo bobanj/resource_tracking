@@ -67,7 +67,7 @@ class ChartsController < ApplicationController
           other += record.value.to_f
         end
       end
-      csv << ['Other', other, nil, nil, nil, 'Other']
+      csv << ['Other', other, nil, nil, nil, 'Other'] if other > 0
     end
     csv_string
   end
