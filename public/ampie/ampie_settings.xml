@@ -25,6 +25,7 @@
   </animation>
 
   <data_labels>
+    <line_color>#000000</line_color>
     <radius></radius>                                         <!-- [20%] (Number / Number%) distance of the labels from the pie. Use negative value to place labels on the pie -->
   </data_labels>
 
