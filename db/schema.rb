@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101104104520) do
+ActiveRecord::Schema.define(:version => 20101104131428) do
 
   create_table "abilities", :force => true do |t|
     t.timestamp "created_at"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(:version => 20101104104520) do
     t.string    "hssp2_stratprog_val"
     t.string    "hssp2_stratobj_val"
     t.string    "official_name"
+    t.decimal   "target_amount",       :default => 0.0
   end
 
   create_table "comments", :force => true do |t|
@@ -297,6 +298,9 @@ ActiveRecord::Schema.define(:version => 20101104104520) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+# Could not dump table "sqlite_stat1" because of following StandardError
+#   Unknown type '' for column 'tbl'
 
   create_table "users", :force => true do |t|
     t.string    "username"

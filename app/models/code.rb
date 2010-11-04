@@ -5,7 +5,8 @@ class Code < ActiveRecord::Base
 
   acts_as_commentable
 
-  attr_accessible :long_display, :short_display, :description, :start_date, :end_date
+  attr_accessible :long_display, :short_display, :description,
+                  :start_date, :end_date, :target_amount
 
   has_many :code_assignments, :foreign_key => :code_id
   has_many :activities, :through => :code_assignments
