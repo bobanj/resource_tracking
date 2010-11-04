@@ -1,0 +1,2 @@
+module PolicyMaker::TargetReportsHelper
+end

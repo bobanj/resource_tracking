@@ -6,6 +6,7 @@ Feature: In order to reduce costs
 # These screens need to be driven from a different user role, since we are just using 
 # admin at the moment.
 
+@run
 Scenario: See Target Review screen
     Given I am signed in as an admin
     When I follow "Dashboard"
