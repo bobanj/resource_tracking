@@ -6,6 +6,6 @@ class PolicyMaker::TargetReportsController < ApplicationController
 
   def show
     @code = Code.find(params[:id])
+    render :layout => "iframe"
   end
-
 end

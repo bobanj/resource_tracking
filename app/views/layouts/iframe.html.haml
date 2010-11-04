@@ -1,0 +1,12 @@
+!!! Strict
+%html{:lang => "en", "xml:lang" => "en", :xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %title= "Resource Tracking Database :: #{yield(:title)}"
+    = render :partial => 'layouts/include_tags'
+    = yield(:head)
+
+  %body{:id => get_controller_id(controller), :class => "app"}
+    #content
+      .wrapper
+        .full-width
+          = yield
