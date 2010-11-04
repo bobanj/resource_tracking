@@ -12,3 +12,5 @@ Scenario: See Target Review screen
     And I follow "Review Targets vs Budgeted"
     Then I should see "Targets vs Budget"
     
+    # And I should see a pie chart of all level 1 codes
+    #
