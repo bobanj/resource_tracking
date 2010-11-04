@@ -549,6 +549,7 @@ var policy_maker_target_reports_index = {
     jQuery('ul.activity_tree').collapsibleCheckboxTree({tab: 'tab1'});
 
     jQuery('.code_popup').click(function (e) {
+      e.preventDefault();
       e.stopPropagation();
       var element = jQuery(this);
       var code_id = Number(element.attr('id').match(/\d+/)[0]);
