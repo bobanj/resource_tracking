@@ -26,16 +26,19 @@ class CodeAssignment < ActiveRecord::Base
               lambda { |code_id| { :conditions =>
                 ["code_assignments.code_id = ?", code_id]} }
   named_scope :sort_cached_amt, { :order => "code_assignments.cached_amount DESC"}
+  named_scope :children_greater_than_myself, { :conditions => "code_assignments.sum_of_children > code_assignments.cached_amount"}
 
   ### methods
-  def calculated_amount
-    # let's always used cached amount for now
 
-#    if read_attribute(:amount).nil?
+  #TODO replace cached_amount everywhere w calculated_amount
+  # if we ever need to change the logic, but not before then
+  # as that would be premature optimization
+  def calculated_amount
       cached_amount
-#    else
-#      read_attribute(:amount)
-#    end
+  end
+  
+  def self.assignments_w_larger_children(activities, type = self)
+    self.with_type(type.to_s).with_activities(activities).children_greater_than_myself
   end
 
   def self.update_codings(code_assignments, activity)
