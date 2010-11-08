@@ -73,5 +73,23 @@ describe Activity do
       activity.spend_stratobj_coding.should == []
     end
   end
+  
+  describe "finding associated locations" do
+    it "should return locations" do
+      activity     = Factory(:activity)
+      locations    = [ Factory(:location), Factory(:location)]
+      activity.locations = locations
+      activity.save!
+      activity.reload
+      activity.locations.should == locations
+    end
+    it "should return provider locations if no locations exist" do
+      pending
+    end
+    it "should return locations even in provider locations exist" do
+      pending
+    end
+  end
+  
     
 end
