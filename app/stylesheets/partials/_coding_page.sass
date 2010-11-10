@@ -49,7 +49,6 @@
         font-size: 0.7em
         text-transform: uppercase
 
-
 #activity_classification
   padding: 10px
 
@@ -65,7 +64,6 @@ body #content #main .activity_tree a
   margin-bottom: 5px
   padding: 5px 0px
   button
-
     border: none
     background= !lightest-blue
     cursor: pointer
@@ -85,6 +83,7 @@ ul.activity_tree
     font-size: 12px
     list-style: none
     padding: 6px 0
+    
     a
       color: $mid-blue
       text-decoration: none
@@ -102,11 +101,14 @@ ul.activity_tree
       color= !light_grey
       display: inline-block
       width: 10px
+      
     .right
       color: $mid-blue
       font-weight: bold
       letter-spacing: 0.06em
       margin-right: 20px
+      margin-top: -5px
+      
     span
       font-size: 1.4em
       font-weight: bold
@@ -115,6 +117,7 @@ ul.activity_tree
       &.collapsed
         color: green
         padding-right: 3px
+        
     ul
       margin-left: 30px
       li
@@ -131,7 +134,9 @@ ul.activity_tree
     cursor: default
     &.expanded, &.collapsed
       cursor: pointer
-
+      float: left
+      width: 13px
+      
 body.app
   ul.activity_tree, #activity_description
     label
@@ -176,7 +181,7 @@ body.app
 
 .overlay_bar-container
   width: 100px
-  margin: 0px 5px
+  margin: -5px 5px 0
   padding: 0px
   float: left
   background: white
