@@ -1,19 +1,22 @@
 class ChartsController < ApplicationController
   include StringCleanerHelper # gives h method
 
-  def data_response_pie
-    @data_response = DataResponse.available_to(current_user).find(params[:id])
-    @assignments = @data_response.activity_coding(params[:codings_type], params[:code_type])
+  CSV_HEADER = 'text/csv; charset=iso-8859-1; header=present'
 
-    #/charts/data_response_pie?id=6586&codings_type=CodingBudget&code_type=CostCategory
-    send_data(get_csv_string(@assignments), :type => 'text/csv; charset=iso-8859-1; header=present')
+  def data_response_pie
+    data_response = DataResponse.available_to(current_user).find(params[:id])
+    report = Reports::Pie::DataResponsePie.new(data_response,
+                                                params[:codings_type],
+                                                params[:code_type])
+    send_data(report.to_csv, :type => CSV_HEADER)
   end
 
   def project_pie
-    @project = Project.available_to(current_user).find(params[:id])
-    @assignments = @project.activity_coding(params[:codings_type], params[:code_type])
-
-    send_data(get_csv_string(@assignments), :type => 'text/csv; charset=iso-8859-1; header=present')
+    project = Project.available_to(current_user).find(params[:id])
+    report = Reports::Pie::DataResponsePie.new(project,
+                                                params[:codings_type],
+                                                params[:code_type])
+    send_data(report.to_csv, :type => CSV_HEADER)
   end
 
   def data_response_treemap

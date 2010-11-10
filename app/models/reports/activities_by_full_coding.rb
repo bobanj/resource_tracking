@@ -2,7 +2,7 @@ require 'fastercsv'
 
 class Reports::ActivitiesByFullCoding < Reports::CodedActivityReport
   include Reports::Helpers
-  
+
   def initialize(activities, report_type, show_respondent = false)
     @show_respondent = show_respondent
     @csv_string = FasterCSV.generate do |csv|
@@ -40,9 +40,15 @@ class Reports::ActivitiesByFullCoding < Reports::CodedActivityReport
 
   def row(csv, code, activities, report_type)
     hierarchy = code_hierarchy(code)
-    #TODO don't show code hierarchy 
+    #TODO don't show code hierarchy
     # since can tell by indentation
-    cas = code.leaf_assigns_for_activities_for_code_set(report_type, @leaves, activities)
+
+    # for Virtual Codes psuedo-code
+    # cas = coding_group.leaf_assigns_for_activities_for_code ( vcode, activities )
+
+    cas = code.leaf_assigns_for_activities_for_code_set(report_type,
+                                                        @leaves,
+                                                        activities)
     cas.each do |assignment|
       if assignment.cached_amount
         activity = assignment.activity
@@ -67,7 +73,7 @@ class Reports::ActivitiesByFullCoding < Reports::CodedActivityReport
         row << activity.locations.join(' | ')
         row << activity.data_response.responding_organization.try(:short_name) if @show_respondent
         if assignment.activity.provider
-          row << activity.provider.try(:short_name) 
+          row << activity.provider.try(:short_name)
         else
           row << "No Implementer Specified"
         end

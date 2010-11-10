@@ -555,7 +555,7 @@ var build_data_response_review_screen = function () {
   // Data Response charts
   createPieChart("data_response", {id: _dr_id, title: "MTEF Budget", chart_type: 'mtef_budget', codings_type: 'CodingBudget', code_type: 'Mtef'});
   createPieChart("data_response", {id: _dr_id, title: "MTEF Expenditure", chart_type: 'mtef_spend', codings_type: 'CodingSpend', code_type: 'Mtef'});
-  createPieChart("data_response", {id: _dr_id, title: "NSP Budget", chart_type: 'nsp_budget', codings_type: 'CodingBudget', code_type: 'Nsp'});
+  createPieChart("data_response", {id: _dr_id, title: "NSP Budget", chart_type: 'nsp_budget_with_virtual_coding', codings_type: 'VirtualCodingBudget', code_type: 'Nsp'});
   createPieChart("data_response", {id: _dr_id, title: "NSP Expenditure", chart_type: 'nsp_spend', codings_type: 'CodingSpend', code_type: 'Nsp'});
   createPieChart("data_response", {id: _dr_id, title: "Cost Category Budget", chart_type: 'cc_budget', codings_type: 'CodingBudgetCostCategorization', code_type: 'CostCategory'});
   createPieChart("data_response", {id: _dr_id, title: "Cost Category Expenditure", chart_type: 'cc_spend', codings_type: 'CodingSpendCostCategorization', code_type: 'CostCategory'});

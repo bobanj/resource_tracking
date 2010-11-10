@@ -1,7 +1,9 @@
 module ReportHelpers
 
-  @@virtual_coding_types = [:budget_stratprog_coding, :spend_stratprog_coding,
-   :budget_stratobj_coding, :spend_stratobj_coding]
+  @@virtual_coding_types = [:budget_stratprog_coding,
+                            :spend_stratprog_coding,
+                            :budget_stratobj_coding,
+                            :spend_stratobj_coding]
 
   def activity_coding codings_type = nil, code_type = nil
     unless @@virtual_coding_types.include? codings_type.to_sym
@@ -17,13 +19,16 @@ module ReportHelpers
       end
       conditions = [conditions.join(" AND "), condition_values]
       name_value = self.class.find(:all,
-            :select => "codes.id as code_id, codes.parent_id as parent_id, codes.short_display AS name, SUM(code_assignments.cached_amount) AS value",
+            :select => "codes.id as code_id,
+                        codes.parent_id as parent_id,
+                        codes.short_display AS name,
+                        SUM(code_assignments.cached_amount) AS value",
             :joins => {:activities => {:code_assignments => :code}},
             :conditions => conditions,
             :group => "codes.short_display, codes.id, codes.parent_id",
             :order => 'value DESC')
       codes_to_exclude = (name_value.collect{|n| n.parent_id} - [nil]).uniq.sort
-      c=[]
+      c = []
       name_value.each do |n|
         if codes_to_exclude.include? n.code_id
           c << n.code_id
@@ -32,26 +37,27 @@ module ReportHelpers
       c.each do |n|
         name_value.delete_if {|nm| nm.code_id == n}
       end
-      name_value
+      # convert it to friendly hash
+      hash = {}
+      name_value.each do |record|
+         hash[record.name] = record.value
+      end
+      hash
     else
-      self.send(codings_type)
+      self.send(codings_type) # call the corresponding generated method below
     end
   end
 
-  [:budget_stratprog_coding, :spend_stratprog_coding,
-   :budget_stratobj_coding, :spend_stratobj_coding].each do |m|
-    define_method m do #def m
-      name_value= []
+  [:budget_stratprog_coding,
+   :spend_stratprog_coding,
+   :budget_stratobj_coding,
+   :spend_stratobj_coding].each do |m|
+    define_method m do
+      name_value  = {}
       assignments = activities.collect{|a| a.send(m)}.flatten
       assignments.group_by {|a| a.code}.each do |code, array|
-        row = [code.short_display, array.inject(0) {|sum, v| sum + v.cached_amount}]
-        def row.value
-          self[1]
-        end
-        def row.name
-          self[0]
-        end
-        name_value << row
+        value = array.inject(0) { |sum, v| sum + v.cached_amount}
+        name_value[code.short_display] = value
       end
       name_value
     end
