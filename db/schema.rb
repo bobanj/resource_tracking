@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101104131428) do
+ActiveRecord::Schema.define(:version => 20101104193756) do
 
   create_table "abilities", :force => true do |t|
     t.timestamp "created_at"
@@ -17,46 +17,56 @@ ActiveRecord::Schema.define(:version => 20101104131428) do
   end
 
   create_table "activities", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "provider_id"
-    t.text     "description"
-    t.string   "type"
-    t.decimal  "budget"
-    t.decimal  "spend_q1"
-    t.decimal  "spend_q2"
-    t.decimal  "spend_q3"
-    t.decimal  "spend_q4"
-    t.date     "start"
-    t.date     "end"
-    t.decimal  "spend"
-    t.text     "text_for_provider"
-    t.text     "text_for_targets"
-    t.text     "text_for_beneficiaries"
-    t.decimal  "spend_q4_prev"
-    t.integer  "data_response_id"
-    t.integer  "activity_id"
-    t.decimal  "budget_percentage"
-    t.decimal  "spend_percentage"
-    t.boolean  "approved"
-    t.decimal  "CodingBudget_amount"
-    t.decimal  "CodingBudgetCostCategorization_amount"
-    t.decimal  "CodingBudgetDistrict_amount"
-    t.decimal  "CodingSpend_amount"
-    t.decimal  "CodingSpendCostCategorization_amount"
-    t.decimal  "CodingSpendDistrict_amount"
-    t.boolean  "use_budget_codings_for_spend",          :default => false
-    t.decimal  "budget_q1"
-    t.decimal  "budget_q2"
-    t.decimal  "budget_q3"
-    t.decimal  "budget_q4"
-    t.decimal  "budget_q4_prev"
+    t.string    "name"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "provider_id"
+    t.text      "description"
+    t.string    "type"
+    t.decimal   "budget"
+    t.decimal   "spend_q1"
+    t.decimal   "spend_q2"
+    t.decimal   "spend_q3"
+    t.decimal   "spend_q4"
+    t.date      "start"
+    t.date      "end"
+    t.decimal   "spend"
+    t.text      "text_for_provider"
+    t.text      "text_for_targets"
+    t.text      "text_for_beneficiaries"
+    t.decimal   "spend_q4_prev"
+    t.integer   "data_response_id"
+    t.integer   "activity_id"
+    t.decimal   "budget_percentage"
+    t.decimal   "spend_percentage"
+    t.boolean   "approved"
+    t.decimal   "CodingBudget_amount",                   :default => 0.0
+    t.decimal   "CodingBudgetCostCategorization_amount", :default => 0.0
+    t.decimal   "CodingBudgetDistrict_amount",           :default => 0.0
+    t.decimal   "CodingSpend_amount",                    :default => 0.0
+    t.decimal   "CodingSpendCostCategorization_amount",  :default => 0.0
+    t.decimal   "CodingSpendDistrict_amount",            :default => 0.0
+    t.boolean   "use_budget_codings_for_spend",          :default => false
+    t.decimal   "budget_q1"
+    t.decimal   "budget_q2"
+    t.decimal   "budget_q3"
+    t.decimal   "budget_q4"
+    t.decimal   "budget_q4_prev"
   end
+
+  add_index "activities", ["activity_id"], :name => "index_activities_on_activity_id"
+  add_index "activities", ["data_response_id"], :name => "index_activities_on_data_response_id"
+  add_index "activities", ["provider_id"], :name => "index_activities_on_provider_id"
+  add_index "activities", ["type"], :name => "index_activities_on_type"
 
   create_table "activities_beneficiaries", :id => false, :force => true do |t|
     t.integer "activity_id"
     t.integer "beneficiary_id"
+  end
+
+  create_table "activities_indicators", :id => false, :force => true do |t|
+    t.integer "activity_id"
+    t.integer "indicator_id"
   end
 
   create_table "activities_locations", :id => false, :force => true do |t|
@@ -88,6 +98,9 @@ ActiveRecord::Schema.define(:version => 20101104131428) do
     t.decimal "cached_amount"
     t.decimal "sum_of_children"
   end
+
+  add_index "code_assignments", ["activity_id", "code_id", "type"], :name => "index_code_assignments_on_activity_id_and_code_id_and_type"
+  add_index "code_assignments", ["code_id"], :name => "index_code_assignments_on_code_id"
 
   create_table "codes", :force => true do |t|
     t.integer   "parent_id"
@@ -149,25 +162,26 @@ ActiveRecord::Schema.define(:version => 20101104131428) do
   end
 
   create_table "data_responses", :force => true do |t|
-    t.integer  "data_element_id"
-    t.integer  "data_request_id"
-    t.boolean  "complete",                         :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "organization_id_responder"
-    t.string   "currency"
-    t.date     "fiscal_year_start_date"
-    t.date     "fiscal_year_end_date"
-    t.string   "contact_name"
-    t.string   "contact_position"
-    t.string   "contact_phone_number"
-    t.string   "contact_main_office_phone_number"
-    t.string   "contact_office_location"
-    t.boolean  "submitted"
-    t.datetime "submitted_at"
+    t.integer   "data_element_id"
+    t.integer   "data_request_id"
+    t.boolean   "complete",                         :default => false
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "organization_id_responder"
+    t.string    "currency"
+    t.date      "fiscal_year_start_date"
+    t.date      "fiscal_year_end_date"
+    t.string    "contact_name"
+    t.string    "contact_position"
+    t.string    "contact_phone_number"
+    t.string    "contact_main_office_phone_number"
+    t.string    "contact_office_location"
+    t.boolean   "submitted"
+    t.timestamp "submitted_at"
   end
 
   add_index "data_responses", ["data_request_id"], :name => "index_data_responses_on_data_request_id"
+  add_index "data_responses", ["organization_id_responder"], :name => "index_data_responses_on_organization_id_responder"
 
   create_table "field_helps", :force => true do |t|
     t.string    "attribute_name"
@@ -201,9 +215,21 @@ ActiveRecord::Schema.define(:version => 20101104131428) do
     t.decimal   "budget_q4_prev"
   end
 
+  add_index "funding_flows", ["data_response_id"], :name => "index_funding_flows_on_data_response_id"
+  add_index "funding_flows", ["project_id"], :name => "index_funding_flows_on_project_id"
+  add_index "funding_flows", ["self_provider_flag"], :name => "index_funding_flows_on_self_provider_flag"
+
   create_table "help_requests", :force => true do |t|
     t.string    "email"
     t.text      "message"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+  end
+
+  create_table "indicators", :force => true do |t|
+    t.string    "name"
+    t.text      "description"
+    t.string    "source"
     t.timestamp "created_at"
     t.timestamp "updated_at"
   end
@@ -275,6 +301,8 @@ ActiveRecord::Schema.define(:version => 20101104131428) do
     t.decimal   "budget_q4"
     t.decimal   "budget_q4_prev"
   end
+
+  add_index "projects", ["data_response_id"], :name => "index_projects_on_data_response_id"
 
   create_table "sessions", :force => true do |t|
     t.string    "session_id", :null => false

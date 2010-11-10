@@ -1,8 +1,13 @@
 %li
   %a{:id => "code_#{code.id}", :class => "code_popup", :href => policy_maker_target_report_path(code)}= code.short_display
   .right
-    - target = (@target_amounts[code.id] / @max * 100).round
-    - actual = (@actual_budgeted_amounts[code.id] / @max * 100).round
+    - begin
+      - target = (@target_amounts[code.id] / @max * 100).round
+      - actual = (@actual_budgeted_amounts[code.id] / @max * 100).round
+    - rescue
+      - logger.debug("        *** Target Amount: problem with code id: #{code.id}")
+      - target = -1
+      - actual = -1
     = render 'overlay_bar', :target => target, :actual => actual
     = link_to "?", "#", :title => "Target: #{target}%, Actual: #{actual}%", :class => "tooltip"
 
