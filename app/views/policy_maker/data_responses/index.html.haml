@@ -49,8 +49,8 @@
               %td= n2c data_response.total_project_budget
               %td= data_response.activities_count
               %td= data_response.sub_activities_count
-              %td= n2c data_response.total_activity_spend
-              %td= n2c data_response.total_activity_budget
+              %td= n2c data_response.total_activity_spend_in_usd, "$"
+              %td= n2c data_response.total_activity_budget_in_usd, "$"
               %td= "#{data_response.unclassified_activities_count} / #{data_response.activities_count}"
               %td
                 = link_to "Show", admin_response_path(data_response)

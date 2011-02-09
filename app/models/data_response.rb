@@ -105,12 +105,12 @@ class DataResponse < ActiveRecord::Base
     activities.only_simple.unclassified.count
   end
 
-  def total_activity_spend
-    total_activity_method("spend")
+  def total_activity_spend_in_usd
+    activities.only_simple.inject(0){|sum,a| sum + a.spend_in_usd}
   end
 
-  def total_activity_budget
-    total_activity_method("budget")
+  def total_activity_budget_in_usd
+    activities.only_simple.inject(0){|sum,a| sum + a.budget_in_usd}
   end
 
   def total_activity_spend_RWF
