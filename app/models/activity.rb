@@ -30,6 +30,7 @@ class Activity < ActiveRecord::Base
   acts_as_commentable
   configure_act_as_data_element
 
+
   ### Attributes
   attr_accessible :projects, :locations, :beneficiaries, :provider,
                   :text_for_provider, :text_for_beneficiaries,
@@ -69,8 +70,6 @@ class Activity < ActiveRecord::Base
   before_save :update_cached_usd_amounts
   before_update :remove_district_codings
   before_update :update_all_classified_amount_caches
-  after_save  :update_counter_cache
-  after_destroy :update_counter_cache
 
   ### Named scopes
   # TODO: spec
@@ -328,12 +327,9 @@ class Activity < ActiveRecord::Base
       CodeAssignment.delete_all(["activity_id = ? AND type = ?", self.id, coding_type])
     end
 
-    def update_counter_cache
-      if (dr = self.data_response)
-        dr.activities_count = dr.activities.only_simple.count
-        dr.activities_without_projects_count = dr.activities.roots.without_a_project.count
-        dr.save(false)
-      end
+    def update_sub_activity_cache
+      self.sub_activities_count = self.sub_activities.count
+      save(false)
     end
 
     def set_classified_amount_cache(type)

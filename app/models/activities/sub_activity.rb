@@ -1,5 +1,9 @@
+require 'lib/acts_as_counter_cacheable'
+
 class SubActivity < Activity
   extend ActiveSupport::Memoizable
+  include ActsAsCounterCacheable
+  acts_as_counter_cacheable
 
   ### Associations
   belongs_to :activity, :counter_cache => true
@@ -8,8 +12,6 @@ class SubActivity < Activity
   attr_accessible :activity_id, :spend_percentage, :budget_percentage
 
   ### Callbacks
-  after_create  :update_counter_cache
-  after_destroy :update_counter_cache
 
   ### Delegates
   [:projects, :name, :description, :start_date, :end_date, :approved,
@@ -83,11 +85,6 @@ class SubActivity < Activity
   memoize :coding_spend_cost_categorization
 
   private
-
-    def update_counter_cache
-      self.data_response.sub_activities_count = data_response.sub_activities.count
-      self.data_response.save(false)
-    end
 
     # if the provider is a clinic or hospital it has only one location
     # so put all the money towards that location

@@ -6,6 +6,7 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 require 'yaml'
 require 'erb'
+
 config_file_path = File.join(RAILS_ROOT, 'config', 'settings.secret.yml')
 config_file_path = File.join(RAILS_ROOT, 'config', 'settings.yml') if ['production', 'staging'].include?(RAILS_ENV)
 if File.exist?(config_file_path)
@@ -42,3 +43,4 @@ end
 require 'array_extensions'
 require 'version'
 require 'lib/array'
+

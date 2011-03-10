@@ -18,6 +18,7 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :activities
   has_and_belongs_to_many :locations
 
+
   belongs_to :data_response, :counter_cache => true
   has_one :owner, :through => :data_response, :source => :organization
 

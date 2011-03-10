@@ -10,7 +10,7 @@ class DataResponse < ActiveRecord::Base
 
   ### Attributes
   attr_accessible :fiscal_year_end_date, :fiscal_year_start_date, :currency, :data_request_id,
-                  :contact_name, :contact_name, :contact_position, :contact_phone_number, 
+                  :contact_name, :contact_name, :contact_position, :contact_phone_number,
                   :contact_main_office_phone_number, :contact_office_location
 
   ### Associations
@@ -149,6 +149,12 @@ class DataResponse < ActiveRecord::Base
       end
     end
   end
+
+  def update_counter_caches(klass)
+    self.sub_activities_count = self.sub_activities.count if [SubActivity].include? type
+    save(false)
+  end
+
 end
 
 
