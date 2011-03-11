@@ -151,7 +151,7 @@ class DataResponse < ActiveRecord::Base
   end
 
   def update_counter_caches(klass)
-    self.sub_activities_count = self.sub_activities.count if [SubActivity].include? type
+    self.sub_activities_count = self.sub_activities.count if [SubActivity].include? klass
     save(false)
   end
 

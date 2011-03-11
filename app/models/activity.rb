@@ -321,15 +321,15 @@ class Activity < ActiveRecord::Base
     clone
   end
 
+  def update_sub_activity_cache
+    self.sub_activities_count = self.sub_activities.count
+    save(false)
+  end
+
   private
 
     def delete_existing_code_assignments_by_type(coding_type)
       CodeAssignment.delete_all(["activity_id = ? AND type = ?", self.id, coding_type])
-    end
-
-    def update_sub_activity_cache
-      self.sub_activities_count = self.sub_activities.count
-      save(false)
     end
 
     def set_classified_amount_cache(type)
