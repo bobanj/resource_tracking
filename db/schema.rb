@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110321095153) do
+ActiveRecord::Schema.define(:version => 20110317123051) do
 
   create_table "activities", :force => true do |t|
     t.string   "name"
@@ -53,8 +53,6 @@ ActiveRecord::Schema.define(:version => 20110321095153) do
     t.integer  "project_id"
     t.decimal  "budget2"
     t.decimal  "budget3"
-    t.decimal  "ServiceLevelBudget_amount",             :default => 0.0
-    t.decimal  "ServiceLevelSpend_amount",              :default => 0.0
   end
 
   add_index "activities", ["activity_id"], :name => "index_activities_on_activity_id"
@@ -128,6 +126,16 @@ ActiveRecord::Schema.define(:version => 20110321095153) do
   add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
   add_index "comments", ["commentable_type"], :name => "index_comments_on_commentable_type"
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
+
+  create_table "commodities", :force => true do |t|
+    t.string   "commodity_type"
+    t.text     "description"
+    t.decimal  "unit_cost",        :default => 0.0
+    t.integer  "quantity"
+    t.integer  "data_response_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "data_requests", :force => true do |t|
     t.integer  "organization_id"
