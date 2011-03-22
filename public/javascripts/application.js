@@ -959,6 +959,33 @@ var reports_countries_activities_show = {
   }
 };
 
+var update_funding_source_selects = function () {
+  var project_id = jQuery('#activity_project_id').val();
+  if (project_id) {
+    var options = ['<option value=""></option>'];
+    jQuery.each(_funding_sources[project_id], function (i) {
+      options.push('<option value="' + this[1] + '">' + this[0] + '</option>');
+    });
+    var options_string = options.join('\n');
+    var fs_selects = jQuery('.funding_source');
+
+    jQuery.each(fs_selects, function (i) {
+      var element = jQuery(this);
+      if (element.html() !== options_string) {
+        var value = element.val();
+        element.html(options_string);
+        element.val(value);
+      }
+    });
+  }
+};
+
+var activities_new = activities_create = activities_edit = activities_update = {
+  run: function () {
+    jQuery('#activity_project_id').change(update_funding_source_selects);
+  }
+}
+
 jQuery(function () {
 
   // tipsy tooltips everywhere!
