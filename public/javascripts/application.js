@@ -121,20 +121,20 @@ var updateCount = function (resources) {
   resources.find('.count').html(count);
 }
 
-var addNewRow = function (resources, data) {
-  resources.find('tbody').prepend(data);
-  enableElement(resources.find('.new_btn'));
-  updateCount(resources);
-  var newRow = $(resources.find('tbody tr')[0]);
-  newRow.find(".rest_in_place").rest_in_place(); // inplace edit
-};
+// var addNewRow = function (resources, data) {
+//   resources.find('tbody').prepend(data);
+//   enableElement(resources.find('.new_btn'));
+//   updateCount(resources);
+//   var newRow = $(resources.find('tbody tr')[0]);
+//   newRow.find(".rest_in_place").rest_in_place(); // inplace edit
+// };
 
-var addExistingRow = function (rowId, data) {
-  var row = $('#' + rowId);
-  row.replaceWith(data)
-  var newRow = $('#' + rowId);
-  newRow.find(".rest_in_place").rest_in_place(); // inplace edit
-};
+// var addExistingRow = function (rowId, data) {
+//   var row = $('#' + rowId);
+//   row.replaceWith(data)
+//   var newRow = $('#' + rowId);
+//   newRow.find(".rest_in_place").rest_in_place(); // inplace edit
+// };
 
 var addSearchForm = function (element) {
   if (element.hasClass('enabled')) {
@@ -181,10 +181,10 @@ var newResource = function (element) {
   }
 };
 
-var replaceTable = function (data) {
-  $("#main_table").replaceWith(data);
-  $("#main_table").find(".rest_in_place").rest_in_place(); // inplace edit
-};
+// var replaceTable = function (data) {
+//   $("#main_table").replaceWith(data);
+//   $("#main_table").find(".rest_in_place").rest_in_place(); // inplace edit
+// };
 
 var searchResources = function (element, type) {
   var resourceName = getResourceName(element);
@@ -1053,7 +1053,7 @@ $(function () {
   });
 
   // Inplace edit
-  $(".rest_in_place").rest_in_place();
+  //$(".rest_in_place").rest_in_place();
 
   // clickable table rows
   $('.clickable tbody tr').click(function (e) {
